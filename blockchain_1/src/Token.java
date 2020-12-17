@@ -14,7 +14,15 @@ public class Token {
         if(this.transactions.size()<LIMIT)
             this.transactions.add(transaction);
     }
-    //hash for token from transactions
 
-    //validate all the transactions
+    @Override
+    public String toString() {
+        StringBuilder sb=new StringBuilder();
+        for(Transaction t :this.transactions)
+        {
+            sb.append(t.mess).append("\n");
+        }
+        return sb.toString();
+
+    }
 }

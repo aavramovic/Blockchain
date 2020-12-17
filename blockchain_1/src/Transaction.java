@@ -26,7 +26,7 @@ public class Transaction {
         this.signature=sender.signTransaction(this.mess);
         return this.signature;
     }
-    //MOZE BILO KOJ DA VERIFICIRA
+
     //verify the transaction receiver.verify
     public boolean verifySignature() throws Exception {
         return receiver.verifyTransaction(signature,this.mess,sender.publicKey);

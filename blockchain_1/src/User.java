@@ -1,34 +1,49 @@
 import java.security.KeyPair;
 import java.security.PrivateKey;
 import java.security.PublicKey;
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 public class User {
     public PublicKey publicKey;
-    private PrivateKey privateKey;
-    public List<Block> chain;
+    private final PrivateKey privateKey;
+    public BlockChain blockchain;
     public static List<User> users;
+
+
     public User() throws Exception{
         //Key pair for the user
         KeyPair kp=RSA.generateKeyPair();
         this.publicKey=kp.getPublic();
         this.privateKey=kp.getPrivate();
-        this.chain=new ArrayList<>();
+        setBlockchain();
     }
 
-    public void setChain(List<Block> chain) {
-        this.chain = chain;
+//get the blockchain present in most users
+    public void setBlockchain(){
+        HashMap<BlockChain,Integer> voting=new HashMap<>();
+        for(User u:users)
+        {
+            //if the blockchain is already in the map just increment the count
+           if(voting.computeIfPresent(u.blockchain,(key,val)->val+1)==null)
+               voting.put(u.blockchain,1);
+        }
+        //get the blockchain with the most votes
+       Optional< Map.Entry<BlockChain,Integer>> tmp=voting.entrySet().stream().max(Map.Entry.comparingByValue());
+        if(tmp.isEmpty())
+            this.blockchain=new BlockChain();
+        else {
+            this.blockchain=tmp.get().getKey();
+        }
+
+    }
+
+    //get last block
+    public Block getLastBlock (){
+        return blockchain.chain.get(blockchain.chain.size()-1);
     }
 
 
-    //add finished block
-    public void addFinishedBlock(Block b)
-    {
-        b.setPrevious(chain.get(chain.size()-1).hash);
-        this.chain.add(b);
-    }
+
     //sign the transaction
     public String signTransaction(String mess) throws Exception {
         //RSA signature
@@ -44,7 +59,7 @@ public class User {
     public double amountForUser(PublicKey publicKey)
     { double sum=0;
     //iterates through blocks in chain
-       for(Block b:this.chain)
+       for(Block b:this.blockchain.chain)
        {
            //sums the new coins of user
            if(b.coinbase.userPublicKey.equals(publicKey))
