@@ -85,29 +85,5 @@ public class User {
         return sum;
     }
 
-    public static void main(String[] args) throws Exception {
-        User sender=new User();
-        User receiver=new User();
-        User miner=new User();
-        User miner2=new User();
-        //coinbase
-        miner.newCoinbase(Double.parseDouble("300.0"),sender.publicKey);
-        //token
-        miner.newTransaction(sender.publicKey,receiver.publicKey,Double.parseDouble("100.0"));
-        miner.newTransaction(sender.publicKey,receiver.publicKey,Double.parseDouble("150.0"));
-
-
-
-
-
-
-
-
-
-
-
-
-
-    }
 
 }
