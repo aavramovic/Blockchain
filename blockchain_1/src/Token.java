@@ -13,6 +13,7 @@ public class Token {
     public void addTransaction(Transaction transaction){
         if(this.transactions.size()<LIMIT)
             this.transactions.add(transaction);
+
     }
 
     @Override

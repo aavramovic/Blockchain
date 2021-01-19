@@ -29,7 +29,7 @@ public class Transaction {
 
     //verify the transaction receiver.verify
     public boolean verifySignature() throws Exception {
-        return receiver.verifyTransaction(signature,this.mess,sender.publicKey);
+        return miner.verifyTransaction(signature,this.mess,sender.publicKey);
     }
 
     //check the amount miner.check
