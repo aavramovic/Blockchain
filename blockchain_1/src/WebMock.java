@@ -4,12 +4,13 @@ import java.util.HashSet;
 
 public class WebMock {
     private static DataHolder dh;
+
     public static void main(String[] args) throws Exception {
         dh.fillUsers();
-        User sender=new User();
-        User receiver=new User();
-        User miner=new User();
-        User miner2=new User();
+        User sender = new User();
+        User receiver = new User();
+        User miner = new User();
+        User miner2 = new User();
 
         dh.addUser(sender);
         dh.addUser(receiver);
@@ -17,19 +18,26 @@ public class WebMock {
         dh.addUser(miner2);
 
         //coinbase
-        miner.newCoinbase(Double.parseDouble("300.0"),sender.publicKey);
+        miner.newCoinbase(Double.parseDouble("300.0"), sender.publicKey);
         //token
-        miner.newTransaction(sender.publicKey,receiver.publicKey,Double.parseDouble("100.0"));
-        miner.newTransaction(sender.publicKey,receiver.publicKey,Double.parseDouble("150.0"));
-
+        sender.newTransaction(sender.publicKey, receiver.publicKey, Double.parseDouble("100.0"));
+        sender.newTransaction(sender.publicKey, receiver.publicKey, Double.parseDouble("150.0"));
     }
 
-    void addNewUser(User user){
+    void addNewUser(User user) {
         dh.addUser(user);
     }
-    void requestJoinaje(User user){
+
+    public static DataHolder getDh() {
+        return dh;
+    }
+
+    void requestJoin(User user) {
         //gi izvestuvame userite na tipov da mu pratat info
         //user ke ima klasa send info
+        for (User u : dh.getUsers()) {
+            u.sendDataToUser(user);
+        }
 
     }
 }

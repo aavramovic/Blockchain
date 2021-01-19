@@ -7,7 +7,7 @@ public class User {
     public PublicKey publicKey;
     private final PrivateKey privateKey;
     public BlockChain blockchain;
-    public static HashSet<User> users;
+    public HashSet<User> users;
 
 
     public User() throws Exception {
@@ -15,7 +15,7 @@ public class User {
         KeyPair kp = RSA.generateKeyPair();
         this.publicKey = kp.getPublic();
         this.privateKey = kp.getPrivate();
-        users=DataHolder.getUsers();
+        this.users=WebMock.getDh().getUsers();
         setBlockchain();
     }
     public void receiveInfo(HashSet<User> users, BlockChain blockChain){
@@ -29,6 +29,9 @@ public class User {
     public void newCoinbase(double amount,PublicKey publicKey)
     {
         getLastBlock().coinbase.newCoinbase(publicKey,amount);
+    }
+    public void sendDataToUser(User user){
+//        WebMock.sendToUser(user);
     }
 
     //get the blockchain present in most users

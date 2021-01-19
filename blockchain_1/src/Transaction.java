@@ -12,8 +12,8 @@ public class Transaction {
 
     public Transaction(double amount, PublicKey senderPubK,PublicKey receiverPubK) {
         this.amount = amount;
-        this.sender=User.users.stream().filter(u->u.publicKey.equals(senderPubK)).findFirst().orElse(null);
-        this.receiver=User.users.stream().filter(u->u.publicKey.equals(receiverPubK)).findFirst().orElse(null);
+        this.sender=WebMock.getDh().getUsers().stream().filter(u->u.publicKey.equals(senderPubK)).findFirst().orElse(null);
+        this.receiver=WebMock.getDh().getUsers().stream().filter(u->u.publicKey.equals(receiverPubK)).findFirst().orElse(null);
         //message construction mess=amount;senderPubK;receiverPubK
         StringBuilder sb =new StringBuilder();
         this.mess=sb.append(amount).append(";").append(sender.publicKey).append(";").append(receiver.publicKey).toString();

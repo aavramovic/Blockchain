@@ -1,9 +1,9 @@
 import java.util.HashSet;
 
 public class DataHolder {
-     static HashSet<User> users;
+    HashSet<User> users;
 
-    public  static HashSet<User> getUsers() {
+    public HashSet<User> getUsers() {
         return users;
     }
 
