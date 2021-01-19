@@ -7,7 +7,7 @@ public class User {
     public PublicKey publicKey;
     private final PrivateKey privateKey;
     public BlockChain blockchain;
-    public static List<User> users;
+    public static HashSet<User> users;
 
 
     public User() throws Exception {
@@ -15,6 +15,7 @@ public class User {
         KeyPair kp = RSA.generateKeyPair();
         this.publicKey = kp.getPublic();
         this.privateKey = kp.getPrivate();
+        users=DataHolder.getUsers();
         setBlockchain();
     }
     public void receiveInfo(HashSet<User> users, BlockChain blockChain){

@@ -1,9 +1,14 @@
 import java.util.HashSet;
 
 public class DataHolder {
-    HashSet<User> users;
+     static HashSet<User> users;
+
+    public  static HashSet<User> getUsers() {
+        return users;
+    }
+
     public DataHolder() {
-        this.users = new HashSet<>();
+        users = new HashSet<>();
     }
 
     public void fillUsers() throws Exception {
