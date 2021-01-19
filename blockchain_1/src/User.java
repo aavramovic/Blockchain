@@ -1,3 +1,4 @@
+import java.lang.invoke.WrongMethodTypeException;
 import java.security.KeyPair;
 import java.security.PrivateKey;
 import java.security.PublicKey;
@@ -15,17 +16,22 @@ public class User {
         KeyPair kp = RSA.generateKeyPair();
         this.publicKey = kp.getPublic();
         this.privateKey = kp.getPrivate();
-        this.users = WebMock.getDh().getUsers();
-        setBlockchain();
+        this.users = new HashSet<>();
+//        setBlockchain();
+        updateBlockChain();
     }
+    public void setUsers(HashSet<User> users){
+        this.users = users;
 
-    public void updateBlockChain() {
-        this.blockchain = WebMock.updateBlockChain(this);
     }
+//    public void updateBlockChain() {
+//        this.blockchain = WebMock.updateBlockChain(this);
+//    }
 
-    public void newTransaction(PublicKey publicKeySender, PublicKey publicKeyReceiver, double amount) {
+    public void newTransaction(PublicKey publicKeySender, PublicKey publicKeyReceiver, double amount) throws Exception {
         Transaction t = new Transaction(amount, publicKeySender, publicKeyReceiver);
-        getLastBlock().token.transactions.add(t);
+        String key = signTransaction(t);
+        getLastBlock().token.transactions.put(key, t);
     }
 
     public void newCoinbase(double amount, PublicKey publicKey) {
@@ -33,7 +39,7 @@ public class User {
     }
 
     //get the blockchain present in most users
-    public void setBlockchain() {
+/*    public void setBlockchain() {
         HashMap<BlockChain, Integer> voting = new HashMap<>();
         for (User u : users) {
             //if the blockchain is already in the map just increment the count
@@ -48,20 +54,49 @@ public class User {
             this.blockchain = tmp.get().getKey();
         }
 
+    }*/
+    public BlockChain updateBlockChain() {
+        //ako ova raboti dzver
+        HashMap<BlockChain, Integer> finalBlockChain = new HashMap<>();
+        for(User u : this.users){
+            if(finalBlockChain.containsKey(u.blockchain))
+                finalBlockChain.put(u.blockchain, finalBlockChain.get(u.blockchain)+1);
+            finalBlockChain.put(u.blockchain, 1);
+        }
+        Optional<Map.Entry<BlockChain, Integer>>maxEntry = finalBlockChain.entrySet().stream().max(Map.Entry.comparingByValue());
+        if(maxEntry.isPresent())
+            return maxEntry.get().getKey();
+        else throw new WrongMethodTypeException("Update BlockChain maxEntry is not present");
     }
 
     //get last block
     public Block getLastBlock() {
         //update blockchain?
+        if (blockchain.chain.size() == 0) {
+            blockchain.chain.add(new Block());
+            return blockchain.chain.get(0);
+        }
         return blockchain.chain.get(blockchain.chain.size() - 1);
     }
 
 
     //sign the transaction
-    public String signTransaction(String mess) throws Exception {
+    public String signTransaction(Transaction transaction) throws Exception {
         //RSA signature
-        return RSA.sign(mess, this.privateKey);
 
+        transaction.signature = RSA.sign(transaction.mess, this.privateKey);
+        return transaction.signature;
+    }
+
+    public void verifyBlock(Block block) throws Exception{
+        block.token.transactions.forEach((key, value) -> {
+            try {
+                verifyTransaction(key, value.mess, value.sender.publicKey);
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        });
+        //String signature, String mess, PublicKey publicKey
     }
 
     //verify a transaction
@@ -78,7 +113,7 @@ public class User {
             if (b.coinbase.coinbase.containsKey(publicKey))
                 sum += b.coinbase.coinbase.get(publicKey);
 
-            for (Transaction t : b.token.transactions) {
+            for (Transaction t : b.token.transactions.values()) {
                 //adds amount of transaction if the user is the receiver
                 if (t.receiver.publicKey.equals(publicKey))
                     sum += t.amount;

@@ -3,10 +3,16 @@ import java.lang.invoke.WrongMethodTypeException;
 import java.util.*;
 
 public class WebMock {
-    private static DataHolder dh;
+    private static DataHolder dh = new DataHolder();
 
     public static void main(String[] args) throws Exception {
-        dh.fillUsers();
+//        User Alice = new User();
+//        User Bob = new User();
+//        User Oscar = new User();
+//        User PapaSmurf = new User();
+//        User Jana = new User();
+//        User Marta = new User();
+//        User Antonio = new User();
         User sender = new User();
         User receiver = new User();
         User miner = new User();
@@ -16,12 +22,20 @@ public class WebMock {
         dh.addUser(receiver);
         dh.addUser(miner);
         dh.addUser(miner2);
-
+        sender.setUsers(dh.users);
+        receiver.setUsers(dh.users);
+        miner.setUsers(dh.users);
+        miner2.setUsers(dh.users);
+        System.out.println(sender.blockchain.chain.get(0));
         //coinbase
-        miner.newCoinbase(Double.parseDouble("300.0"), sender.publicKey);
+//        miner.newCoinbase(Double.parseDouble("300.0"), sender.publicKey);
         //token
-        sender.newTransaction(sender.publicKey, receiver.publicKey, Double.parseDouble("100.0"));
-        sender.newTransaction(sender.publicKey, receiver.publicKey, Double.parseDouble("150.0"));
+//        sender.newTransaction(sender.publicKey, receiver.publicKey, Double.parseDouble("100.0"));
+//        sender.newTransaction(sender.publicKey, receiver.publicKey, Double.parseDouble("150.0"));
+//        miner.blockchain = updateBlockChain(miner);
+//        miner.verifyBlock(miner.getLastBlock());
+//        sender.blockchain = updateBlockChain(sender);
+//        System.out.println(sender.getLastBlock().toString());
     }
 
 

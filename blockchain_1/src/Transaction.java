@@ -23,7 +23,7 @@ public class Transaction {
     //sign the transaction sender.sign
     public String signTransaction() throws Exception {
 
-        this.signature=sender.signTransaction(this.mess);
+        this.signature=sender.signTransaction(this);
         return this.signature;
     }
 

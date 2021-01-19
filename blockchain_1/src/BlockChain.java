@@ -1,7 +1,5 @@
 import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 public class BlockChain {
 
@@ -16,13 +14,14 @@ public class BlockChain {
 
     }
 
+
     public void addTransaction(Transaction transaction) throws NoSuchAlgorithmException {
         Block lastBlock = this.chain.get(chain.size() - 1);
         if (lastBlock.token.transactions.size() > LIMIT) {
             this.addNewBlock(new Block());
             addTransaction(transaction);
         } else {
-            lastBlock.token.transactions.add(transaction);
+            lastBlock.token.transactions.put(transaction.signature,transaction);
         }
     }
     //update difficulty with each block
@@ -32,10 +31,10 @@ public class BlockChain {
         //in proofOfWork computes the hash
         // newBlock.hash = newBlock.calculateHash();
         Block lastBlock = this.chain.get(chain.size() - 1);
-        List<Transaction> tempTransactions = lastBlock.token.transactions;
+        List<Transaction> tempTransactions = (List<Transaction>) lastBlock.token.transactions.values();
         for(Transaction transaction : tempTransactions){
             if (!transaction.verified)
-                lastBlock.token.transactions.remove(transaction);
+                lastBlock.token.transactions.remove(transaction.signature);
             //ako ima problem ovde e do equals sho promashuva niz instanci
         }
         if(tempTransactions.size() == lastBlock.token.transactions.size()){
