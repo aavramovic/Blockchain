@@ -1,6 +1,6 @@
 import javax.xml.crypto.Data;
-import java.util.HashMap;
-import java.util.HashSet;
+import java.lang.invoke.WrongMethodTypeException;
+import java.util.*;
 
 public class WebMock {
     private static DataHolder dh;
@@ -24,20 +24,26 @@ public class WebMock {
         sender.newTransaction(sender.publicKey, receiver.publicKey, Double.parseDouble("150.0"));
     }
 
+
+    public static BlockChain updateBlockChain(User user) {
+        //ako ova raboti dzver
+        HashMap<BlockChain, Integer> finalBlockChain = new HashMap<>();
+        for(User u : dh.getUsers()){
+            if(finalBlockChain.containsKey(u.blockchain))
+                finalBlockChain.put(u.blockchain, finalBlockChain.get(u.blockchain)+1);
+            finalBlockChain.put(u.blockchain, 1);
+        }
+        Optional<Map.Entry<BlockChain, Integer>>maxEntry = finalBlockChain.entrySet().stream().max(Map.Entry.comparingByValue());
+        if(maxEntry.isPresent())
+            return maxEntry.get().getKey();
+        else throw new WrongMethodTypeException("Update BlockChain maxEntry is not present");
+    }
+
     void addNewUser(User user) {
         dh.addUser(user);
     }
 
     public static DataHolder getDh() {
         return dh;
-    }
-
-    void requestJoin(User user) {
-        //gi izvestuvame userite na tipov da mu pratat info
-        //user ke ima klasa send info
-        for (User u : dh.getUsers()) {
-            u.sendDataToUser(user);
-        }
-
     }
 }

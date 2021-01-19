@@ -1,6 +1,7 @@
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class BlockChain {
 
@@ -26,7 +27,8 @@ public class BlockChain {
     }
     //update difficulty with each block
 
-    public void addNewBlock(Block newBlock) throws NoSuchAlgorithmException {
+    public boolean addNewBlock(Block newBlock) throws NoSuchAlgorithmException {
+        //boolean za da proverime dali se dodal nov block
         //in proofOfWork computes the hash
         // newBlock.hash = newBlock.calculateHash();
         Block lastBlock = this.chain.get(chain.size() - 1);
@@ -40,10 +42,9 @@ public class BlockChain {
             newBlock.setPrevious(chain.get(chain.size() - 1).hash);
             newBlock.proofOfWork(this.difficulty);
             this.chain.add(newBlock);
+            return true;
         }
-        else{
-
-        }
+        return false;
     }
 
     //check chain validity
@@ -61,13 +62,27 @@ public class BlockChain {
 
     }
 
-    public boolean equals(BlockChain bc) {
-        if (bc.chain.size() != this.chain.size() || this.difficulty != bc.difficulty)
-            return false;
-        for (int i = 0; i < this.chain.size(); i++) {
-            if (!chain.get(i).equals(bc.chain.get(i)))
-                return false;
-        }
-        return false;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof BlockChain)) return false;
+        BlockChain that = (BlockChain) o;
+        return difficulty == that.difficulty &&
+                Objects.equals(chain, that.chain);
     }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(chain, difficulty);
+    }
+
+    //    public boolean equals(BlockChain bc) {
+//        if (bc.chain.size() != this.chain.size() || this.difficulty != bc.difficulty)
+//            return false;
+//        for (int i = 0; i < this.chain.size(); i++) {
+//            if (!chain.get(i).equals(bc.chain.get(i)))
+//                return false;
+//        }
+//        return false;
+//    }
 }

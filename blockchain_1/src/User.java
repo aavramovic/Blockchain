@@ -15,23 +15,21 @@ public class User {
         KeyPair kp = RSA.generateKeyPair();
         this.publicKey = kp.getPublic();
         this.privateKey = kp.getPrivate();
-        this.users=WebMock.getDh().getUsers();
+        this.users = WebMock.getDh().getUsers();
         setBlockchain();
     }
-    public void receiveInfo(HashSet<User> users, BlockChain blockChain){
-        //collect info and compare??
+
+    public void updateBlockChain() {
+        this.blockchain = WebMock.updateBlockChain(this);
     }
-    public void newTransaction(PublicKey publicKeySender,PublicKey publicKeyReceiver, double amount)
-    {
-        Transaction t=new Transaction(amount,publicKeySender,publicKeyReceiver);
+
+    public void newTransaction(PublicKey publicKeySender, PublicKey publicKeyReceiver, double amount) {
+        Transaction t = new Transaction(amount, publicKeySender, publicKeyReceiver);
         getLastBlock().token.transactions.add(t);
     }
-    public void newCoinbase(double amount,PublicKey publicKey)
-    {
-        getLastBlock().coinbase.newCoinbase(publicKey,amount);
-    }
-    public void sendDataToUser(User user){
-//        WebMock.sendToUser(user);
+
+    public void newCoinbase(double amount, PublicKey publicKey) {
+        getLastBlock().coinbase.newCoinbase(publicKey, amount);
     }
 
     //get the blockchain present in most users
@@ -78,7 +76,7 @@ public class User {
         for (Block b : this.blockchain.chain) {
             //sums the new coins of user
             if (b.coinbase.coinbase.containsKey(publicKey))
-                 sum += b.coinbase.coinbase.get(publicKey);
+                sum += b.coinbase.coinbase.get(publicKey);
 
             for (Transaction t : b.token.transactions) {
                 //adds amount of transaction if the user is the receiver
@@ -92,6 +90,5 @@ public class User {
         }
         return sum;
     }
-
 
 }
