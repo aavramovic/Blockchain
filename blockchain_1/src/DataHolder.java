@@ -15,6 +15,7 @@ public class DataHolder {
         User Alice = new User();
         User Bob = new User();
         User Oscar = new User();
+        User PapaSmurf = new User();
         User Jana = new User();
         User Marta = new User();
         User Antonio = new User();
@@ -22,6 +23,7 @@ public class DataHolder {
         users.add(Alice);
         users.add(Bob);
         users.add(Oscar);
+        users.add(PapaSmurf);
         users.add(Jana);
         users.add(Marta);
         users.add(Antonio);
