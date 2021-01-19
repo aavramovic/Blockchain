@@ -17,6 +17,9 @@ public class User {
         this.privateKey = kp.getPrivate();
         setBlockchain();
     }
+    public void receiveInfo(HashSet<User> users, BlockChain blockChain){
+        //collect info and compare??
+    }
     public void newTransaction(PublicKey publicKeySender,PublicKey publicKeyReceiver, double amount)
     {
         Transaction t=new Transaction(amount,publicKeySender,publicKeyReceiver);
