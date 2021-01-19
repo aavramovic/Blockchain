@@ -1,14 +1,18 @@
+import javax.xml.crypto.Data;
 import java.util.HashMap;
+import java.util.HashSet;
 
 public class WebMock {
-    HashMap<User, Integer> users;
+    DataHolder dh;
     public WebMock() {
-    }
-
-    void addNewUser(){
+        dh = new DataHolder();
 
     }
-    void requestJoinaje(String chovek){
+
+    void addNewUser(User user){
+        dh.addUser(user);
+    }
+    void requestJoinaje(User user){
         //gi izvestuvame userite na tipov da mu pratat info
         //user ke ima klasa send info
 
