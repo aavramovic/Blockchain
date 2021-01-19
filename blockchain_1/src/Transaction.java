@@ -8,6 +8,7 @@ public class Transaction {
     public User miner;
     public double amount;
     public String mess;
+    public boolean verified = false;
 
 
     public Transaction(double amount, PublicKey senderPubK,PublicKey receiverPubK) {
@@ -17,7 +18,6 @@ public class Transaction {
         //message construction mess=amount;senderPubK;receiverPubK
         StringBuilder sb =new StringBuilder();
         this.mess=sb.append(amount).append(";").append(sender.publicKey).append(";").append(receiver.publicKey).toString();
-
     }
 
     //sign the transaction sender.sign

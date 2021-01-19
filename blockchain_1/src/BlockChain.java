@@ -6,6 +6,7 @@ public class BlockChain {
 
     public List<Block> chain;
     public int difficulty;
+    private static final int LIMIT = 10;
 
 
     public BlockChain() {
@@ -13,14 +14,36 @@ public class BlockChain {
         this.difficulty = 0;
 
     }
+
+    public void addTransaction(Transaction transaction) throws NoSuchAlgorithmException {
+        Block lastBlock = this.chain.get(chain.size() - 1);
+        if (lastBlock.token.transactions.size() > LIMIT) {
+            this.addNewBlock(new Block());
+            addTransaction(transaction);
+        } else {
+            lastBlock.token.transactions.add(transaction);
+        }
+    }
     //update difficulty with each block
 
     public void addNewBlock(Block newBlock) throws NoSuchAlgorithmException {
         //in proofOfWork computes the hash
         // newBlock.hash = newBlock.calculateHash();
-        newBlock.setPrevious(chain.get(chain.size() - 1).hash);
-        newBlock.proofOfWork(this.difficulty);
-        this.chain.add(newBlock);
+        Block lastBlock = this.chain.get(chain.size() - 1);
+        List<Transaction> tempTransactions = lastBlock.token.transactions;
+        for(Transaction transaction : tempTransactions){
+            if (!transaction.verified)
+                lastBlock.token.transactions.remove(transaction);
+            //ako ima problem ovde e do equals sho promashuva niz instanci
+        }
+        if(tempTransactions.size() == lastBlock.token.transactions.size()){
+            newBlock.setPrevious(chain.get(chain.size() - 1).hash);
+            newBlock.proofOfWork(this.difficulty);
+            this.chain.add(newBlock);
+        }
+        else{
+
+        }
     }
 
     //check chain validity

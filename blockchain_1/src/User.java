@@ -54,6 +54,7 @@ public class User {
 
     //get last block
     public Block getLastBlock() {
+        //update blockchain?
         return blockchain.chain.get(blockchain.chain.size() - 1);
     }
 
