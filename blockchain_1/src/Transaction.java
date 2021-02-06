@@ -1,8 +1,9 @@
 import javax.naming.directory.InvalidAttributesException;
 import java.security.PublicKey;
 import java.time.LocalDateTime;
+import java.util.Objects;
 
-public class Transaction {
+public class Transaction  {
     //verified signature
     public String signature;
     public User sender;
@@ -48,7 +49,6 @@ public class Transaction {
         return false;
 
     }
-
 
 
 

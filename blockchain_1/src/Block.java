@@ -25,13 +25,16 @@ public class Block {
 
     public void proofOfWork(int difficulty) throws NoSuchAlgorithmException {
         StringBuilder sb = new StringBuilder();
-        sb.append("0".repeat(Math.max(0, difficulty)));
+        sb.append("1".repeat(Math.max(0, difficulty)));
         //computes the hash so that it has leading zeros = difficulty
         this.hash=calculateHash();
+
         while (!this.hash.substring(0, difficulty).equals(sb.toString())) {
             this.Nonce++;
             this.hash = this.calculateHash();
         }
+        System.out.println(this.hash);
+
     }
 
     @Override

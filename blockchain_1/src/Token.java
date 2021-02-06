@@ -1,16 +1,13 @@
 import java.security.NoSuchAlgorithmException;
 import java.security.Signature;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class Token {
     //limit the number of transaction in token
     public Map<String, Transaction> transactions;
 
     public Token() {
-        this.transactions = new HashMap<>();
+        this.transactions = new LinkedHashMap<>();
     }
     //add transaction to the token
 

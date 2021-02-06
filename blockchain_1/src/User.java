@@ -5,6 +5,8 @@ import java.security.PrivateKey;
 import java.security.PublicKey;
 import java.util.*;
 
+import static java.util.stream.Collectors.toMap;
+
 public class User {
     public PublicKey publicKey;
     private final PrivateKey privateKey;
@@ -116,26 +118,36 @@ public class User {
     }
 
     public void verifyBlock(Block block) throws Exception{
-        block.token.transactions.forEach((key, value) -> {
+        Map<String, Transaction> tmp=new LinkedHashMap<>(block.token.transactions);
+       // tmp=tmp.entrySet().stream().sorted(Map.Entry.comparingByValue(new ComparatorTransaction()))
+                //.collect(toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e2, LinkedHashMap::new));
+            tmp.forEach((key, value) -> {
             try {
-                if(verifyTransaction(key, value.mess, value.sender.publicKey))
-                    value.verified=true;
-
+                if (verifyTransaction(key, value.mess, value.sender.publicKey))
+                    block.token.transactions.get(key).verified=true;
+                else
+                    block.token.transactions.remove(key);
 
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
 
         });
-        //String signature, String mess, PublicKey publicKey
+        block.proofOfWork(this.blockchain.difficulty);
+
     }
 
     //verify a transaction
     public boolean verifyTransaction(String signature, String mess, PublicKey publicKey) throws Exception {
         //proveri dali ima pari
-        if(amountForUser(publicKey).compareTo(Double.parseDouble(mess.split(";")[0]))>0)
-        {    System.out.println(mess.split(";")[0]);
+        Double amount=amountForUser(publicKey);
+        Double price=Double.parseDouble(mess.split(";")[0]);
+        System.out.println(amount+" - "+price);
+        if(amount-price<0)
+        {
+            System.out.println(price);
             return false;}
+
         return RSA.verify(mess, signature, publicKey);
     }
 
@@ -149,12 +161,14 @@ public class User {
                 sum += b.coinbase.coinbase.get(publicKey);
 
             for (Transaction t : b.token.transactions.values()) {
-                //adds amount of transaction if the user is the receiver
-                if (t.receiver.publicKey.equals(publicKey))
-                    sum += t.amount;
-                //subtracts amount of transaction if the user is the sender
-                if (t.sender.publicKey.equals(publicKey))
-                    sum -= t.amount;
+                if(t.verified) {
+                    //adds amount of transaction if the user is the receiver
+                    if (t.receiver.publicKey.equals(publicKey))
+                        sum += t.amount;
+                    //subtracts amount of transaction if the user is the sender
+                    if (t.sender.publicKey.equals(publicKey))
+                        sum -= t.amount;
+                }
             }
 
         }

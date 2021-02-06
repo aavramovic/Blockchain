@@ -1,6 +1,8 @@
 import java.security.NoSuchAlgorithmException;
 import java.util.*;
 
+import static java.util.stream.Collectors.toMap;
+
 public class BlockChain {
 
     public List<Block> chain;
@@ -10,7 +12,7 @@ public class BlockChain {
 
     public BlockChain() {
         this.chain = new ArrayList<>();
-        this.difficulty = 0;
+        this.difficulty = 1;
         this.chain.add(new Block());
     }
 
@@ -23,27 +25,19 @@ public class BlockChain {
 
         } else {
             lastBlock.token.transactions.put(transaction.signature,transaction);
+
         }
     }
     //update difficulty with each block
 
-    public boolean addNewBlock(Block newBlock) throws NoSuchAlgorithmException {
+    public void addNewBlock(Block newBlock) throws NoSuchAlgorithmException {
         //boolean za da proverime dali se dodal nov block
         //in proofOfWork computes the hash
         // newBlock.hash = newBlock.calculateHash();
         Block lastBlock = this.chain.get(chain.size() - 1);
-        List<Transaction> tempTransactions =new ArrayList<>(lastBlock.token.transactions.values());
-        for(Transaction transaction : tempTransactions){
-            if (!transaction.verified)
-                lastBlock.token.transactions.remove(transaction.signature);
-            //ako ima problem ovde e do equals sho promashuva niz instanci
-        }
-        if(tempTransactions.size() == lastBlock.token.transactions.size()){
-            newBlock.setPrevious(chain.get(chain.size() - 1).hash);
-            this.chain.add(newBlock);
-            return true;
-        }
-        return false;
+        newBlock.setPrevious(lastBlock.hash);
+        this.chain.add(newBlock);
+
     }
 
     //check chain validity
@@ -75,6 +69,13 @@ public class BlockChain {
         return Objects.hash(chain, difficulty);
     }
 
+    @Override
+    public String toString() {
+        return "BlockChain{" +
+                "chain=" + chain.toString() +
+                ", difficulty=" + difficulty +
+                '}';
+    }
     //    public boolean equals(BlockChain bc) {
 //        if (bc.chain.size() != this.chain.size() || this.difficulty != bc.difficulty)
 //            return false;

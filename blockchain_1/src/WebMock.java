@@ -39,7 +39,8 @@ public class WebMock {
 
         miner.updateBlockChainLocal();
         miner.verifyBlock(miner.getLastBlock());
-        System.out.println(miner.blockchain.chain.get(0));
+        System.out.println(miner.blockchain.chain.get(0).toString());
+        System.out.println(miner.blockchain.chain.get(1).toString());
 
 
 
