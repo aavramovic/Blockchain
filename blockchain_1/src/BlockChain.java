@@ -76,6 +76,16 @@ public class BlockChain {
                 ", difficulty=" + difficulty +
                 '}';
     }
+
+    public int verifiedSize() {
+        int size = 0;
+        for(Block b : this.chain){
+            if(b.hash!=null){
+                size++;
+            }
+        }
+        return size;
+    }
     //    public boolean equals(BlockChain bc) {
 //        if (bc.chain.size() != this.chain.size() || this.difficulty != bc.difficulty)
 //            return false;

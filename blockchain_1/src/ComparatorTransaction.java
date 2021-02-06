@@ -1,8 +1,10 @@
 import java.util.Comparator;
 
-public class ComparatorTransaction implements Comparator<Transaction> {
+class ComparatorBlockChain implements Comparator<BlockChain> {
+
+
     @Override
-    public int compare(Transaction o1, Transaction o2) {
-        return o1.timestamp.compareTo(o2.timestamp);
+    public int compare(BlockChain o1, BlockChain o2) {
+        return o1.verifiedSize()-o2.verifiedSize();
     }
 }
