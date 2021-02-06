@@ -78,6 +78,9 @@ public class User {
         this.blockchain=updateBlockChain();
     }
 
+    public void updateMinerBlockChain(){
+        DataHolder.getUsers().forEach(x->x.blockchain = this.blockchain);
+    }
     public BlockChain updateBlockChain() {
         //ako ova raboti dzver
         HashMap<BlockChain, Integer> finalBlockChain = new HashMap<>();

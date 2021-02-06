@@ -41,11 +41,12 @@ public class WebMock {
         sender.newTransaction(sender.publicKey, receiver.publicKey, Double.parseDouble("14.0"));
 
         miner.verifyBlock(miner.getLastBlock());
+        miner.updateMinerBlockChain();
 
 
 
 
-        for(Block b: miner.blockchain.chain){
+        for(Block b: sender.blockchain.chain){
             System.out.println("----------");
             System.out.println(b.print());
         }
