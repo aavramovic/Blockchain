@@ -22,7 +22,6 @@ public class WebMock {
 
 
         miner.newCoinbase(Double.parseDouble("300.0"), sender.publicKey);
-
         sender.newTransaction(sender.publicKey, receiver.publicKey, Double.parseDouble("1.0"));
         sender.newTransaction(sender.publicKey, receiver.publicKey, Double.parseDouble("2.0"));
         sender.newTransaction(sender.publicKey, receiver.publicKey, Double.parseDouble("3.0"));
@@ -33,13 +32,19 @@ public class WebMock {
         sender.newTransaction(sender.publicKey, receiver.publicKey, Double.parseDouble("8.0"));
         sender.newTransaction(sender.publicKey, receiver.publicKey, Double.parseDouble("9.0"));
         sender.newTransaction(sender.publicKey, receiver.publicKey, Double.parseDouble("10.0"));
+        miner.updateBlockChainLocal();
         miner.verifyBlock(miner.getLastBlock());
         sender.newTransaction(sender.publicKey, receiver.publicKey, Double.parseDouble("11.0"));
         sender.newTransaction(sender.publicKey, receiver.publicKey, Double.parseDouble("12.0"));
         sender.newTransaction(sender.publicKey, receiver.publicKey, Double.parseDouble("13.0"));
+        sender.newTransaction(sender.publicKey, receiver.publicKey, Double.parseDouble("300.0"));
+        sender.newTransaction(sender.publicKey, receiver.publicKey, Double.parseDouble("14.0"));
 
-        miner.updateBlockChainLocal();
         miner.verifyBlock(miner.getLastBlock());
+
+
+
+
         for(Block b: miner.blockchain.chain){
             System.out.println("----------");
             System.out.println(b.print());

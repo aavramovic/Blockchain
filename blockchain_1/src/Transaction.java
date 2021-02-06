@@ -44,7 +44,7 @@ public class Transaction  {
     //check the amount miner.check
     public boolean checkAmountSender()
     {
-        if((amount-miner.amountForUser(sender.publicKey))>=0)
+        if((amount-sender.amountForUser(sender.publicKey))>=0)
              return true;
         return false;
 

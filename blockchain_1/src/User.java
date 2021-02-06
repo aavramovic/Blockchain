@@ -142,7 +142,7 @@ public class User {
         //proveri dali ima pari
         Double amount=amountForUser(publicKey);
         Double price=Double.parseDouble(mess.split(";")[0]);
-        System.out.println(amount+" - "+price);
+
         if(amount-price<0)
         {
             return false;}
