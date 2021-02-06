@@ -1,11 +1,11 @@
-import java.lang.invoke.WrongMethodTypeException;
+
 import java.security.KeyPair;
 import java.security.NoSuchAlgorithmException;
 import java.security.PrivateKey;
 import java.security.PublicKey;
 import java.util.*;
 
-import static java.util.stream.Collectors.toMap;
+
 
 public class User {
     public PublicKey publicKey;
@@ -20,7 +20,6 @@ public class User {
         this.publicKey = kp.getPublic();
         this.privateKey = kp.getPrivate();
         this.users = new HashSet<>();
-//        setBlockchain();
         updateBlockChainLocal();
     }
 
@@ -32,10 +31,6 @@ public class User {
         return users;
     }
 
-
-    //    public void updateBlockChain() {
-//        this.blockchain = WebMock.updateBlockChain(this);
-//    }
 
     public void newTransaction(PublicKey publicKeySender, PublicKey publicKeyReceiver, double amount) throws Exception {
         Transaction t = new Transaction(amount, publicKeySender, publicKeyReceiver);
@@ -78,9 +73,6 @@ public class User {
         this.blockchain=updateBlockChain();
     }
 
-    public void updateMinerBlockChain(){
-        DataHolder.getUsers().forEach(x->x.blockchain = this.blockchain);
-    }
     public BlockChain updateBlockChain() {
         //ako ova raboti dzver
         HashMap<BlockChain, Integer> finalBlockChain = new HashMap<>();
@@ -145,9 +137,10 @@ public class User {
         //proveri dali ima pari
         Double amount=amountForUser(publicKey);
         Double price=Double.parseDouble(mess.split(";")[0]);
-
+        System.out.println(amount+" - "+price);
         if(amount-price<0)
         {
+            System.out.println(price);
             return false;}
 
         return RSA.verify(mess, signature, publicKey);

@@ -22,34 +22,33 @@ public class WebMock {
 
 
         miner.newCoinbase(Double.parseDouble("300.0"), sender.publicKey);
-        sender.newTransaction(sender.publicKey, receiver.publicKey, Double.parseDouble("1.0"));
-        sender.newTransaction(sender.publicKey, receiver.publicKey, Double.parseDouble("2.0"));
-        sender.newTransaction(sender.publicKey, receiver.publicKey, Double.parseDouble("3.0"));
-        sender.newTransaction(sender.publicKey, receiver.publicKey, Double.parseDouble("4.0"));
-        sender.newTransaction(sender.publicKey, receiver.publicKey, Double.parseDouble("5.0"));
-        sender.newTransaction(sender.publicKey, receiver.publicKey, Double.parseDouble("6.0"));
-        sender.newTransaction(sender.publicKey, receiver.publicKey, Double.parseDouble("7.0"));
-        sender.newTransaction(sender.publicKey, receiver.publicKey, Double.parseDouble("8.0"));
-        sender.newTransaction(sender.publicKey, receiver.publicKey, Double.parseDouble("9.0"));
+        sender.newTransaction(sender.publicKey, receiver.publicKey, Double.parseDouble("100.0"));
+        sender.newTransaction(sender.publicKey, receiver.publicKey, Double.parseDouble("1550.0"));
+        sender.newTransaction(sender.publicKey, receiver.publicKey, Double.parseDouble("1560.0"));
+        sender.newTransaction(sender.publicKey, receiver.publicKey, Double.parseDouble("50.0"));
         sender.newTransaction(sender.publicKey, receiver.publicKey, Double.parseDouble("10.0"));
+        sender.newTransaction(sender.publicKey, receiver.publicKey, Double.parseDouble("15.0"));
+        sender.newTransaction(sender.publicKey, receiver.publicKey, Double.parseDouble("10.0"));
+        sender.newTransaction(sender.publicKey, receiver.publicKey, Double.parseDouble("107.0"));
+        sender.newTransaction(sender.publicKey, receiver.publicKey, Double.parseDouble("17.0"));
+        sender.newTransaction(sender.publicKey, receiver.publicKey, Double.parseDouble("18.0"));
+        miner.verifyBlock(miner.getLastBlock());
+        sender.newTransaction(sender.publicKey, receiver.publicKey, Double.parseDouble("1000.0"));
+        sender.newTransaction(sender.publicKey, receiver.publicKey, Double.parseDouble("199.0"));
+        sender.newTransaction(sender.publicKey, receiver.publicKey, Double.parseDouble("60.0"));
+
         miner.updateBlockChainLocal();
         miner.verifyBlock(miner.getLastBlock());
-        sender.newTransaction(sender.publicKey, receiver.publicKey, Double.parseDouble("11.0"));
-        sender.newTransaction(sender.publicKey, receiver.publicKey, Double.parseDouble("12.0"));
-        sender.newTransaction(sender.publicKey, receiver.publicKey, Double.parseDouble("13.0"));
-        sender.newTransaction(sender.publicKey, receiver.publicKey, Double.parseDouble("300.0"));
-        sender.newTransaction(sender.publicKey, receiver.publicKey, Double.parseDouble("14.0"));
-
-        miner.verifyBlock(miner.getLastBlock());
-        miner.updateMinerBlockChain();
+        System.out.println(miner.blockchain.chain.get(0).toString());
+        System.out.println(miner.blockchain.chain.get(1).toString());
 
 
 
 
-        for(Block b: sender.blockchain.chain){
-            System.out.println("----------");
-            System.out.println(b.print());
-        }
+
+
+
+
     }
 
 
