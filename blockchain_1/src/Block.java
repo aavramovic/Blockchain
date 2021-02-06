@@ -49,6 +49,17 @@ public class Block {
                 ", timestamp=" + timestamp +
                 '}';
     }
+    public String print(){
+        return "Block{" +
+                "ID=" + ID +
+                ", Nonce=" + Nonce +
+                ", coinbase=" + coinbase +
+                ", token= " +'\n'+ token.print() +
+                ", previous='" + previous + '\'' +
+                ", hash='" + hash + '\'' +
+                ", timestamp=" + timestamp +
+                '}';
+    }
 
     public void setPrevious(String previous) {
         this.previous = previous;

@@ -49,7 +49,18 @@ public class Transaction  {
         return false;
 
     }
-
+    public String print(){
+        return "Transaction{" +
+//                "signature='" + signature + '\'' +
+                "sender=" + sender +
+                ", receiver=" + receiver +
+                ", miner=" + miner +
+                ", amount=" + amount +
+//                ", mess='" + mess + '\'' +
+                ", verified=" + verified +
+                ", timestamp=" + timestamp +
+                '}';
+    }
 
 
 }

@@ -16,7 +16,14 @@ public class Token {
     public String toString() {
         StringBuilder sb = new StringBuilder();
         for (Transaction t : this.transactions.values()) {
-            sb.append(t.mess).append("\n");
+            sb.append(t.toString()).append("\n");
+        }
+        return sb.toString();
+    }
+    public String print(){
+        StringBuilder sb = new StringBuilder();
+        for (Transaction t : this.transactions.values()) {
+            sb.append(t.print()).append("\n");
         }
         return sb.toString();
     }

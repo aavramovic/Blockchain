@@ -145,7 +145,6 @@ public class User {
         System.out.println(amount+" - "+price);
         if(amount-price<0)
         {
-            System.out.println(price);
             return false;}
 
         return RSA.verify(mess, signature, publicKey);
