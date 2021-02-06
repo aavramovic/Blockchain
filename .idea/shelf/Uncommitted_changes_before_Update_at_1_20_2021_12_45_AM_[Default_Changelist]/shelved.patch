@@ -1,0 +1,17 @@
+Index: blockchain_1/src/Token.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import java.util.ArrayList;\r\nimport java.util.List;\r\n\r\npublic class Token {\r\n    //limit the number of transaction in token\r\n     private static final int LIMIT =10;\r\n    public List<Transaction> transactions;\r\n\r\n    public Token() {\r\n        this.transactions=new ArrayList<>();\r\n    }\r\n    //add transaction to the token\r\n    public void addTransaction(Transaction transaction){\r\n        if(this.transactions.size()<LIMIT)\r\n            this.transactions.add(transaction);\r\n\r\n    }\r\n\r\n    @Override\r\n    public String toString() {\r\n        StringBuilder sb=new StringBuilder();\r\n        for(Transaction t :this.transactions)\r\n        {\r\n            sb.append(t.mess).append(\"\\n\");\r\n        }\r\n        return sb.toString();\r\n\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- blockchain_1/src/Token.java	(revision c393922a6c79f64ac87cfabb5372ad9c76e9b33e)
++++ blockchain_1/src/Token.java	(date 1611093994280)
+@@ -14,6 +14,7 @@
+         if(this.transactions.size()<LIMIT)
+             this.transactions.add(transaction);
+ 
++
+     }
+ 
+     @Override
