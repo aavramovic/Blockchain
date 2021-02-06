@@ -10,16 +10,17 @@ public class BlockChain {
 
     public BlockChain() {
         this.chain = new ArrayList<>();
-        this.difficulty = 0;
-
+        this.difficulty = 1;
+        this.chain.add(new Block());
     }
 
 
     public void addTransaction(Transaction transaction) throws NoSuchAlgorithmException {
-        Block lastBlock = this.chain.get(chain.size() - 1);
-        if (lastBlock.token.transactions.size() > LIMIT) {
+        Block lastBlock = this.chain.get(chain.size()-1);
+        if (lastBlock.token.transactions.size() >= LIMIT) {
             this.addNewBlock(new Block());
             addTransaction(transaction);
+
         } else {
             lastBlock.token.transactions.put(transaction.signature,transaction);
         }
@@ -31,7 +32,7 @@ public class BlockChain {
         //in proofOfWork computes the hash
         // newBlock.hash = newBlock.calculateHash();
         Block lastBlock = this.chain.get(chain.size() - 1);
-        List<Transaction> tempTransactions = (List<Transaction>) lastBlock.token.transactions.values();
+        List<Transaction> tempTransactions =new ArrayList<>(lastBlock.token.transactions.values());
         for(Transaction transaction : tempTransactions){
             if (!transaction.verified)
                 lastBlock.token.transactions.remove(transaction.signature);

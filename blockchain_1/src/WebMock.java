@@ -3,7 +3,7 @@ import java.lang.invoke.WrongMethodTypeException;
 import java.util.*;
 
 public class WebMock {
-    private static DataHolder dh = new DataHolder();
+
 
     public static void main(String[] args) throws Exception {
 //        User Alice = new User();
@@ -18,23 +18,40 @@ public class WebMock {
         User miner = new User();
         User miner2 = new User();
 
-        dh.addUser(sender);
-        dh.addUser(receiver);
-        dh.addUser(miner);
-        dh.addUser(miner2);
-        sender.setUsers(dh.users);
-        receiver.setUsers(dh.users);
-        miner.setUsers(dh.users);
-        miner2.setUsers(dh.users);
-        System.out.println(sender.blockchain.chain.get(0));
-        //coinbase
-//        miner.newCoinbase(Double.parseDouble("300.0"), sender.publicKey);
-        //token
-//        sender.newTransaction(sender.publicKey, receiver.publicKey, Double.parseDouble("100.0"));
-//        sender.newTransaction(sender.publicKey, receiver.publicKey, Double.parseDouble("150.0"));
-//        miner.blockchain = updateBlockChain(miner);
-//        miner.verifyBlock(miner.getLastBlock());
-//        sender.blockchain = updateBlockChain(sender);
+        DataHolder.addUser(sender);
+        DataHolder.addUser(receiver);
+        DataHolder.addUser(miner);
+        DataHolder.addUser(miner2);
+        sender.setUsers(DataHolder.users);
+        receiver.setUsers(DataHolder.users);
+        miner.setUsers(DataHolder.users);
+        miner2.setUsers(DataHolder.users);
+
+
+        miner.newCoinbase(Double.parseDouble("300000.0"), sender.publicKey);
+        sender.newTransaction(sender.publicKey, receiver.publicKey, Double.parseDouble("100.0"));
+        sender.newTransaction(sender.publicKey, receiver.publicKey, Double.parseDouble("1550.0"));
+        sender.newTransaction(sender.publicKey, receiver.publicKey, Double.parseDouble("1560.0"));
+        sender.newTransaction(sender.publicKey, receiver.publicKey, Double.parseDouble("50.0"));
+        sender.newTransaction(sender.publicKey, receiver.publicKey, Double.parseDouble("10.0"));
+        sender.newTransaction(sender.publicKey, receiver.publicKey, Double.parseDouble("15.0"));
+        sender.newTransaction(sender.publicKey, receiver.publicKey, Double.parseDouble("10.0"));
+        sender.newTransaction(sender.publicKey, receiver.publicKey, Double.parseDouble("107.0"));
+        sender.newTransaction(sender.publicKey, receiver.publicKey, Double.parseDouble("17.0"));
+        sender.newTransaction(sender.publicKey, receiver.publicKey, Double.parseDouble("18.0"));
+        miner.verifyBlock(miner.getLastBlock());
+        sender.newTransaction(sender.publicKey, receiver.publicKey, Double.parseDouble("1000.0"));
+        sender.newTransaction(sender.publicKey, receiver.publicKey, Double.parseDouble("199.0"));
+        sender.newTransaction(sender.publicKey, receiver.publicKey, Double.parseDouble("60.0"));
+
+        miner.blockchain = updateBlockChain(miner);
+        miner.verifyBlock(miner.getLastBlock());
+        System.out.println(miner.blockchain.chain.get(0));
+        System.out.println(miner.blockchain.chain.get(1));
+
+        //sender.blockchain = updateBlockChain(sender);
+
+
 //        System.out.println(sender.getLastBlock().toString());
     }
 
@@ -42,7 +59,7 @@ public class WebMock {
     public static BlockChain updateBlockChain(User user) {
         //ako ova raboti dzver
         HashMap<BlockChain, Integer> finalBlockChain = new HashMap<>();
-        for(User u : dh.getUsers()){
+        for(User u : DataHolder.getUsers()){
             if(finalBlockChain.containsKey(u.blockchain))
                 finalBlockChain.put(u.blockchain, finalBlockChain.get(u.blockchain)+1);
             finalBlockChain.put(u.blockchain, 1);
@@ -54,10 +71,8 @@ public class WebMock {
     }
 
     void addNewUser(User user) {
-        dh.addUser(user);
+        DataHolder.addUser(user);
     }
 
-    public static DataHolder getDh() {
-        return dh;
-    }
+
 }

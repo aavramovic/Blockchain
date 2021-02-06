@@ -1,5 +1,6 @@
 import java.security.PublicKey;
 import java.util.HashMap;
+import java.util.List;
 
 public class Coinbase {
 
@@ -11,5 +12,7 @@ public class Coinbase {
     public void newCoinbase(PublicKey publicKey,Double amount)
     {
         this.coinbase.put(publicKey,amount);
+
+
     }
 }

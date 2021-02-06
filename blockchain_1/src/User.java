@@ -1,5 +1,6 @@
 import java.lang.invoke.WrongMethodTypeException;
 import java.security.KeyPair;
+import java.security.NoSuchAlgorithmException;
 import java.security.PrivateKey;
 import java.security.PublicKey;
 import java.util.*;
@@ -20,18 +21,33 @@ public class User {
 //        setBlockchain();
         updateBlockChain();
     }
-    public void setUsers(HashSet<User> users){
-        this.users = users;
 
+    public void setUsers(HashSet<User> users) {
+        this.users = users;
     }
-//    public void updateBlockChain() {
+
+    public HashSet<User> getUsers() {
+        return users;
+    }
+
+
+    //    public void updateBlockChain() {
 //        this.blockchain = WebMock.updateBlockChain(this);
 //    }
 
     public void newTransaction(PublicKey publicKeySender, PublicKey publicKeyReceiver, double amount) throws Exception {
         Transaction t = new Transaction(amount, publicKeySender, publicKeyReceiver);
         String key = signTransaction(t);
-        getLastBlock().token.transactions.put(key, t);
+        //getLastBlock().token.transactions.put(key, t);
+        //update blockchin kaj site
+        DataHolder.users.forEach(x-> {
+            try {
+                x.blockchain.addTransaction(t);
+            } catch (NoSuchAlgorithmException e) {
+                e.printStackTrace();
+            }
+        });
+
     }
 
     public void newCoinbase(double amount, PublicKey publicKey) {
@@ -58,15 +74,21 @@ public class User {
     public BlockChain updateBlockChain() {
         //ako ova raboti dzver
         HashMap<BlockChain, Integer> finalBlockChain = new HashMap<>();
-        for(User u : this.users){
+        for(User u : users){
             if(finalBlockChain.containsKey(u.blockchain))
                 finalBlockChain.put(u.blockchain, finalBlockChain.get(u.blockchain)+1);
             finalBlockChain.put(u.blockchain, 1);
         }
         Optional<Map.Entry<BlockChain, Integer>>maxEntry = finalBlockChain.entrySet().stream().max(Map.Entry.comparingByValue());
+
         if(maxEntry.isPresent())
             return maxEntry.get().getKey();
-        else throw new WrongMethodTypeException("Update BlockChain maxEntry is not present");
+        else{
+            this.blockchain=new BlockChain();
+            return this.blockchain;
+        }
+
+        //throw new WrongMethodTypeException("Update BlockChain maxEntry is not present");
     }
 
     //get last block
@@ -91,10 +113,14 @@ public class User {
     public void verifyBlock(Block block) throws Exception{
         block.token.transactions.forEach((key, value) -> {
             try {
-                verifyTransaction(key, value.mess, value.sender.publicKey);
+                if(verifyTransaction(key, value.mess, value.sender.publicKey))
+                    value.verified=true;
+
+
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
+
         });
         //String signature, String mess, PublicKey publicKey
     }

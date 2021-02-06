@@ -27,6 +27,7 @@ public class Block {
         StringBuilder sb = new StringBuilder();
         sb.append("0".repeat(Math.max(0, difficulty)));
         //computes the hash so that it has leading zeros = difficulty
+        this.hash=calculateHash();
         while (!this.hash.substring(0, difficulty).equals(sb.toString())) {
             this.Nonce++;
             this.hash = this.calculateHash();

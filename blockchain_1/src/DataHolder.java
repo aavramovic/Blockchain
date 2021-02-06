@@ -1,18 +1,13 @@
 import java.util.HashSet;
 
-public class DataHolder {
-    HashSet<User> users;
+public class  DataHolder {
+    static HashSet<User> users=new HashSet<>();
 
-    public HashSet<User> getUsers() {
+    public static HashSet<User> getUsers() {
         return users;
     }
 
-    public DataHolder() {
-        users = new HashSet<>();
-    }
-
-
-    public void addUser(User user){
+    public static void addUser(User user){
         users.add(user);
     }
 
