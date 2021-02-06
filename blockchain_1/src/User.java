@@ -19,7 +19,7 @@ public class User {
         this.privateKey = kp.getPrivate();
         this.users = new HashSet<>();
 //        setBlockchain();
-        updateBlockChain();
+        updateBlockChainLocal();
     }
 
     public void setUsers(HashSet<User> users) {
@@ -71,6 +71,11 @@ public class User {
         }
 
     }*/
+
+    public void updateBlockChainLocal(){
+        this.blockchain=updateBlockChain();
+    }
+
     public BlockChain updateBlockChain() {
         //ako ova raboti dzver
         HashMap<BlockChain, Integer> finalBlockChain = new HashMap<>();
@@ -127,11 +132,15 @@ public class User {
 
     //verify a transaction
     public boolean verifyTransaction(String signature, String mess, PublicKey publicKey) throws Exception {
+        //proveri dali ima pari
+        if(amountForUser(publicKey).compareTo(Double.parseDouble(mess.split(";")[0]))>0)
+        {    System.out.println(mess.split(";")[0]);
+            return false;}
         return RSA.verify(mess, signature, publicKey);
     }
 
     //sum amount of coins for user with public key (+coinbase+receiver-sender)
-    public double amountForUser(PublicKey publicKey) {
+    public Double amountForUser(PublicKey publicKey) {
         double sum = 0;
         //iterates through blocks in chain
         for (Block b : this.blockchain.chain) {

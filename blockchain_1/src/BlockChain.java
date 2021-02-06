@@ -10,7 +10,7 @@ public class BlockChain {
 
     public BlockChain() {
         this.chain = new ArrayList<>();
-        this.difficulty = 1;
+        this.difficulty = 0;
         this.chain.add(new Block());
     }
 
@@ -40,7 +40,6 @@ public class BlockChain {
         }
         if(tempTransactions.size() == lastBlock.token.transactions.size()){
             newBlock.setPrevious(chain.get(chain.size() - 1).hash);
-            newBlock.proofOfWork(this.difficulty);
             this.chain.add(newBlock);
             return true;
         }

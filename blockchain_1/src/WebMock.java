@@ -6,13 +6,6 @@ public class WebMock {
 
 
     public static void main(String[] args) throws Exception {
-//        User Alice = new User();
-//        User Bob = new User();
-//        User Oscar = new User();
-//        User PapaSmurf = new User();
-//        User Jana = new User();
-//        User Marta = new User();
-//        User Antonio = new User();
         User sender = new User();
         User receiver = new User();
         User miner = new User();
@@ -28,7 +21,7 @@ public class WebMock {
         miner2.setUsers(DataHolder.users);
 
 
-        miner.newCoinbase(Double.parseDouble("300000.0"), sender.publicKey);
+        miner.newCoinbase(Double.parseDouble("300.0"), sender.publicKey);
         sender.newTransaction(sender.publicKey, receiver.publicKey, Double.parseDouble("100.0"));
         sender.newTransaction(sender.publicKey, receiver.publicKey, Double.parseDouble("1550.0"));
         sender.newTransaction(sender.publicKey, receiver.publicKey, Double.parseDouble("1560.0"));
@@ -44,19 +37,21 @@ public class WebMock {
         sender.newTransaction(sender.publicKey, receiver.publicKey, Double.parseDouble("199.0"));
         sender.newTransaction(sender.publicKey, receiver.publicKey, Double.parseDouble("60.0"));
 
-        miner.blockchain = updateBlockChain(miner);
+        miner.updateBlockChainLocal();
         miner.verifyBlock(miner.getLastBlock());
         System.out.println(miner.blockchain.chain.get(0));
-        System.out.println(miner.blockchain.chain.get(1));
-
-        //sender.blockchain = updateBlockChain(sender);
 
 
-//        System.out.println(sender.getLastBlock().toString());
+
+
+
+
+
+
     }
 
 
-    public static BlockChain updateBlockChain(User user) {
+  /*  public static BlockChain updateBlockChain(User user) {
         //ako ova raboti dzver
         HashMap<BlockChain, Integer> finalBlockChain = new HashMap<>();
         for(User u : DataHolder.getUsers()){
@@ -70,9 +65,7 @@ public class WebMock {
         else throw new WrongMethodTypeException("Update BlockChain maxEntry is not present");
     }
 
-    void addNewUser(User user) {
-        DataHolder.addUser(user);
-    }
+*/
 
 
 }
