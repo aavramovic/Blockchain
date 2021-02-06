@@ -1,8 +1,6 @@
 import java.security.NoSuchAlgorithmException;
 import java.util.*;
 
-import static java.util.stream.Collectors.toMap;
-
 public class BlockChain {
 
     public List<Block> chain;
@@ -18,13 +16,13 @@ public class BlockChain {
 
 
     public void addTransaction(Transaction transaction) throws NoSuchAlgorithmException {
-        Block lastBlock = this.chain.get(chain.size()-1);
+        Block lastBlock = this.chain.get(chain.size() - 1);
         if (lastBlock.token.transactions.size() >= LIMIT) {
             this.addNewBlock(new Block());
             addTransaction(transaction);
 
         } else {
-            lastBlock.token.transactions.put(transaction.signature,transaction);
+            lastBlock.token.transactions.put(transaction.signature, transaction);
 
         }
     }
@@ -79,20 +77,11 @@ public class BlockChain {
 
     public int verifiedSize() {
         int size = 0;
-        for(Block b : this.chain){
-            if(b.hash!=null){
+        for (Block b : this.chain) {
+            if (b.hash != null) {
                 size++;
             }
         }
         return size;
     }
-    //    public boolean equals(BlockChain bc) {
-//        if (bc.chain.size() != this.chain.size() || this.difficulty != bc.difficulty)
-//            return false;
-//        for (int i = 0; i < this.chain.size(); i++) {
-//            if (!chain.get(i).equals(bc.chain.get(i)))
-//                return false;
-//        }
-//        return false;
-//    }
 }

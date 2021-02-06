@@ -8,7 +8,6 @@ public class Transaction  {
     public String signature;
     public User sender;
     public User receiver;
-    public User miner;
     public double amount;
     public String mess;
     public boolean verified;
@@ -29,32 +28,12 @@ public class Transaction  {
 
     }
 
-    //sign the transaction sender.sign
-    public String signTransaction() throws Exception {
-
-        this.signature=sender.signTransaction(this);
-        return this.signature;
-    }
-
-    //verify the transaction receiver.verify
-    public boolean verifySignature() throws Exception {
-        return miner.verifyTransaction(signature,this.mess,sender.publicKey);
-    }
-
-    //check the amount miner.check
-    public boolean checkAmountSender()
-    {
-        if((amount-sender.amountForUser(sender.publicKey))>=0)
-             return true;
-        return false;
-
-    }
     public String print(){
         return "Transaction{" +
 //                "signature='" + signature + '\'' +
                 "sender=" + sender +
                 ", receiver=" + receiver +
-                ", miner=" + miner +
+
                 ", amount=" + amount +
 //                ", mess='" + mess + '\'' +
                 ", verified=" + verified +

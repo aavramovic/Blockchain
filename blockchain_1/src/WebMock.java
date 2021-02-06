@@ -4,48 +4,62 @@ import java.util.*;
 
 public class WebMock {
 
+    public static void update()
+    {
+        DataHolder.users.forEach(User::updateBlockChainLocal);
+    }
 
     public static void main(String[] args) throws Exception {
-        User sender = new User();
-        User receiver = new User();
-        User miner = new User();
-        User miner2 = new User();
 
-        DataHolder.addUser(sender);
-        DataHolder.addUser(receiver);
-        DataHolder.addUser(miner);
-        DataHolder.addUser(miner2);
-        sender.setUsers(DataHolder.users);
-        receiver.setUsers(DataHolder.users);
-        miner.setUsers(DataHolder.users);
-        miner2.setUsers(DataHolder.users);
+        //users initialization
+        User Alice= new User();
+        User Bob= new User();
+        User Mark=new User();
+        User Anne=new User();
+        User Antonio = new User();
+        User Marta = new User();
+        User Jana=new User();
 
 
-        miner.newCoinbase(Double.parseDouble("300.0"), sender.publicKey);
-        sender.newTransaction(sender.publicKey, receiver.publicKey, Double.parseDouble("1.0"));
-        sender.newTransaction(sender.publicKey, receiver.publicKey, Double.parseDouble("2.0"));
-        sender.newTransaction(sender.publicKey, receiver.publicKey, Double.parseDouble("3.0"));
-        sender.newTransaction(sender.publicKey, receiver.publicKey, Double.parseDouble("4.0"));
-        sender.newTransaction(sender.publicKey, receiver.publicKey, Double.parseDouble("5.0"));
-        sender.newTransaction(sender.publicKey, receiver.publicKey, Double.parseDouble("6.0"));
-        sender.newTransaction(sender.publicKey, receiver.publicKey, Double.parseDouble("7.0"));
-        sender.newTransaction(sender.publicKey, receiver.publicKey, Double.parseDouble("8.0"));
-        sender.newTransaction(sender.publicKey, receiver.publicKey, Double.parseDouble("9.0"));
-        sender.newTransaction(sender.publicKey, receiver.publicKey, Double.parseDouble("10.0"));
-        miner.updateBlockChainLocal();
-//        miner.verifyBlock(miner.getLastBlock());
-        sender.newTransaction(sender.publicKey, receiver.publicKey, Double.parseDouble("11.0"));
-        sender.newTransaction(sender.publicKey, receiver.publicKey, Double.parseDouble("12.0"));
-        sender.newTransaction(sender.publicKey, receiver.publicKey, Double.parseDouble("13.0"));
-        sender.newTransaction(sender.publicKey, receiver.publicKey, Double.parseDouble("300.0"));
-        sender.newTransaction(sender.publicKey, receiver.publicKey, Double.parseDouble("14.0"));
+        DataHolder.addUser(Alice);
+        DataHolder.addUser(Bob);
+        DataHolder.addUser(Antonio);
+        DataHolder.addUser(Marta);
+        Alice.setUsers(DataHolder.users);
+        Bob.setUsers(DataHolder.users);
+        Antonio.setUsers(DataHolder.users);
+        Marta.setUsers(DataHolder.users);
 
-        miner.verifyBlock(miner.getLastBlock());
-//        miner.updateMinerBlockChain();
 
-        for(Block b: sender.blockchain.chain){
-            System.out.println("----------");
-            System.out.println(b.print());
-        }
+        Alice.newCoinbase(Double.parseDouble("300.0"), Alice.publicKey);
+        Mark.newCoinbase(Double.parseDouble("1000.0"),Mark.publicKey);
+        //making transactions
+        Alice.newTransaction(Alice.publicKey, Bob.publicKey, Double.parseDouble("1.0"));
+        Alice.newTransaction(Alice.publicKey, Bob.publicKey, Double.parseDouble("2.0"));
+        Alice.newTransaction(Alice.publicKey, Antonio.publicKey, Double.parseDouble("3.0"));
+        Alice.newTransaction(Alice.publicKey, Mark.publicKey, Double.parseDouble("4.0"));
+        Alice.newTransaction(Alice.publicKey, Bob.publicKey, Double.parseDouble("5.0"));
+        Alice.newTransaction(Alice.publicKey, Bob.publicKey, Double.parseDouble("6.0"));
+        Alice.newTransaction(Alice.publicKey, Anne.publicKey, Double.parseDouble("7.0"));
+        Alice.newTransaction(Alice.publicKey, Bob.publicKey, Double.parseDouble("8.0"));
+        Bob.newTransaction(Alice.publicKey, Anne.publicKey, Double.parseDouble("9.0"));
+        Mark.newTransaction(Alice.publicKey, Bob.publicKey, Double.parseDouble("10.0"));
+        //miner verifies the block
+        Antonio.verifyBlock(Antonio.getLastBlock());
+        Antonio.updateMinerBlockChain();
+        //new transactions
+        Jana.newCoinbase(Double.parseDouble("300.0"), Jana.publicKey);
+        Bob.newTransaction(Alice.publicKey, Mark.publicKey, Double.parseDouble("11.0"));
+        Mark.newTransaction(Alice.publicKey, Bob.publicKey, Double.parseDouble("12.0"));
+        Marta.newTransaction(Alice.publicKey, Alice.publicKey, Double.parseDouble("13.0"));
+        Bob.newTransaction(Alice.publicKey, Jana.publicKey, Double.parseDouble("300.0"));
+        Marta.newTransaction(Alice.publicKey, Anne.publicKey, Double.parseDouble("14.0"));
+        Marta.verifyBlock(Antonio.getLastBlock());
+        update();
+
+
     }
+
+
+
 }

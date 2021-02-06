@@ -1,12 +1,10 @@
-import java.lang.invoke.WrongMethodTypeException;
-import java.lang.reflect.Array;
+
 import java.security.KeyPair;
 import java.security.NoSuchAlgorithmException;
 import java.security.PrivateKey;
 import java.security.PublicKey;
 import java.util.*;
 
-import static java.util.stream.Collectors.toMap;
 
 public class User {
     public PublicKey publicKey;
@@ -21,7 +19,6 @@ public class User {
         this.publicKey = kp.getPublic();
         this.privateKey = kp.getPrivate();
         this.users = new HashSet<>();
-//        setBlockchain();
         updateBlockChainLocal();
     }
 
@@ -34,15 +31,9 @@ public class User {
     }
 
 
-    //    public void updateBlockChain() {
-//        this.blockchain = WebMock.updateBlockChain(this);
-//    }
-
     public void newTransaction(PublicKey publicKeySender, PublicKey publicKeyReceiver, double amount) throws Exception {
         Transaction t = new Transaction(amount, publicKeySender, publicKeyReceiver);
         String key = signTransaction(t);
-        //getLastBlock().token.transactions.put(key, t);
-        //update blockchin kaj site
         DataHolder.users.forEach(x -> {
             try {
                 x.blockchain.addTransaction(t);
@@ -56,24 +47,6 @@ public class User {
     public void newCoinbase(double amount, PublicKey publicKey) {
         getLastBlock().coinbase.newCoinbase(publicKey, amount);
     }
-
-    //get the blockchain present in most users
-/*    public void setBlockchain() {
-        HashMap<BlockChain, Integer> voting = new HashMap<>();
-        for (User u : users) {
-            //if the blockchain is already in the map just increment the count
-            if (voting.computeIfPresent(u.blockchain, (key, val) -> val + 1) == null)
-                voting.put(u.blockchain, 1);
-        }
-        //get the blockchain with the most votes
-        Optional<Map.Entry<BlockChain, Integer>> tmp = voting.entrySet().stream().max(Map.Entry.comparingByValue());
-        if (tmp.isEmpty())
-            this.blockchain = new BlockChain();
-        else {
-            this.blockchain = tmp.get().getKey();
-        }
-
-    }*/
 
     public void updateBlockChainLocal() {
         this.blockchain = updateBlockChain();
@@ -129,8 +102,6 @@ public class User {
 
     public void verifyBlock(Block block) throws Exception {
         Map<String, Transaction> tmp = new LinkedHashMap<>(block.token.transactions);
-        // tmp=tmp.entrySet().stream().sorted(Map.Entry.comparingByValue(new ComparatorTransaction()))
-        //.collect(toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e2, LinkedHashMap::new));
         tmp.forEach((key, value) -> {
             try {
                 if (verifyTransaction(key, value.mess, value.sender.publicKey))
@@ -143,7 +114,9 @@ public class User {
             }
 
         });
+
         block.proofOfWork(this.blockchain.difficulty);
+        block.coinbase.coinbase.put(this.publicKey,Double.parseDouble("15.00"));
 
     }
 

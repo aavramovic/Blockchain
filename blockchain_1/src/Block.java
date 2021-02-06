@@ -21,8 +21,6 @@ public class Block {
         this.Nonce = 0;
     }
 
-
-
     public void proofOfWork(int difficulty) throws NoSuchAlgorithmException {
         StringBuilder sb = new StringBuilder();
         sb.append("1".repeat(Math.max(0, difficulty)));
