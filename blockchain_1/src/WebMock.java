@@ -33,7 +33,7 @@ public class WebMock {
         sender.newTransaction(sender.publicKey, receiver.publicKey, Double.parseDouble("9.0"));
         sender.newTransaction(sender.publicKey, receiver.publicKey, Double.parseDouble("10.0"));
         miner.updateBlockChainLocal();
-        miner.verifyBlock(miner.getLastBlock());
+//        miner.verifyBlock(miner.getLastBlock());
         sender.newTransaction(sender.publicKey, receiver.publicKey, Double.parseDouble("11.0"));
         sender.newTransaction(sender.publicKey, receiver.publicKey, Double.parseDouble("12.0"));
         sender.newTransaction(sender.publicKey, receiver.publicKey, Double.parseDouble("13.0"));
@@ -41,33 +41,11 @@ public class WebMock {
         sender.newTransaction(sender.publicKey, receiver.publicKey, Double.parseDouble("14.0"));
 
         miner.verifyBlock(miner.getLastBlock());
-        miner.updateMinerBlockChain();
-
-
-
+//        miner.updateMinerBlockChain();
 
         for(Block b: sender.blockchain.chain){
             System.out.println("----------");
             System.out.println(b.print());
         }
     }
-
-
-  /*  public static BlockChain updateBlockChain(User user) {
-        //ako ova raboti dzver
-        HashMap<BlockChain, Integer> finalBlockChain = new HashMap<>();
-        for(User u : DataHolder.getUsers()){
-            if(finalBlockChain.containsKey(u.blockchain))
-                finalBlockChain.put(u.blockchain, finalBlockChain.get(u.blockchain)+1);
-            finalBlockChain.put(u.blockchain, 1);
-        }
-        Optional<Map.Entry<BlockChain, Integer>>maxEntry = finalBlockChain.entrySet().stream().max(Map.Entry.comparingByValue());
-        if(maxEntry.isPresent())
-            return maxEntry.get().getKey();
-        else throw new WrongMethodTypeException("Update BlockChain maxEntry is not present");
-    }
-
-*/
-
-
 }

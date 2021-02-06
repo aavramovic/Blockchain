@@ -1,4 +1,5 @@
 import java.lang.invoke.WrongMethodTypeException;
+import java.lang.reflect.Array;
 import java.security.KeyPair;
 import java.security.NoSuchAlgorithmException;
 import java.security.PrivateKey;
@@ -42,7 +43,7 @@ public class User {
         String key = signTransaction(t);
         //getLastBlock().token.transactions.put(key, t);
         //update blockchin kaj site
-        DataHolder.users.forEach(x-> {
+        DataHolder.users.forEach(x -> {
             try {
                 x.blockchain.addTransaction(t);
             } catch (NoSuchAlgorithmException e) {
@@ -74,31 +75,37 @@ public class User {
 
     }*/
 
-    public void updateBlockChainLocal(){
-        this.blockchain=updateBlockChain();
+    public void updateBlockChainLocal() {
+        this.blockchain = updateBlockChain();
     }
 
-    public void updateMinerBlockChain(){
-        DataHolder.getUsers().forEach(x->x.blockchain = this.blockchain);
+    public void updateMinerBlockChain() {
+        DataHolder.getUsers().forEach(x -> x.blockchain = this.blockchain);
     }
+
     public BlockChain updateBlockChain() {
-        //ako ova raboti dzver
         HashMap<BlockChain, Integer> finalBlockChain = new HashMap<>();
-        for(User u : users){
-            if(finalBlockChain.containsKey(u.blockchain))
-                finalBlockChain.put(u.blockchain, finalBlockChain.get(u.blockchain)+1);
+        ArrayList<BlockChain> list = new ArrayList<>();
+        for (User u : users) {
+            list.add(u.blockchain);
+        }
+        list.sort(new ComparatorBlockChain());
+        ArrayList<BlockChain> fin = new ArrayList<>( list.subList(0, Math.min(list.size(), 3)));
+        for (User u : users) {
+            if (finalBlockChain.containsKey(u.blockchain) && fin.contains(u.blockchain))
+                finalBlockChain.put(u.blockchain, finalBlockChain.get(u.blockchain) + 1);
             finalBlockChain.put(u.blockchain, 1);
         }
-        Optional<Map.Entry<BlockChain, Integer>>maxEntry = finalBlockChain.entrySet().stream().max(Map.Entry.comparingByValue());
 
-        if(maxEntry.isPresent())
+        Optional<Map.Entry<BlockChain, Integer>> maxEntry = finalBlockChain.entrySet().stream().max(Map.Entry.comparingByValue());
+
+
+        if (maxEntry.isPresent())
             return maxEntry.get().getKey();
-        else{
-            this.blockchain=new BlockChain();
+        else {
+            this.blockchain = new BlockChain();
             return this.blockchain;
         }
-
-        //throw new WrongMethodTypeException("Update BlockChain maxEntry is not present");
     }
 
     //get last block
@@ -120,14 +127,14 @@ public class User {
         return transaction.signature;
     }
 
-    public void verifyBlock(Block block) throws Exception{
-        Map<String, Transaction> tmp=new LinkedHashMap<>(block.token.transactions);
-       // tmp=tmp.entrySet().stream().sorted(Map.Entry.comparingByValue(new ComparatorTransaction()))
-                //.collect(toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e2, LinkedHashMap::new));
-            tmp.forEach((key, value) -> {
+    public void verifyBlock(Block block) throws Exception {
+        Map<String, Transaction> tmp = new LinkedHashMap<>(block.token.transactions);
+        // tmp=tmp.entrySet().stream().sorted(Map.Entry.comparingByValue(new ComparatorTransaction()))
+        //.collect(toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e2, LinkedHashMap::new));
+        tmp.forEach((key, value) -> {
             try {
                 if (verifyTransaction(key, value.mess, value.sender.publicKey))
-                    block.token.transactions.get(key).verified=true;
+                    block.token.transactions.get(key).verified = true;
                 else
                     block.token.transactions.remove(key);
 
@@ -143,12 +150,12 @@ public class User {
     //verify a transaction
     public boolean verifyTransaction(String signature, String mess, PublicKey publicKey) throws Exception {
         //proveri dali ima pari
-        Double amount=amountForUser(publicKey);
-        Double price=Double.parseDouble(mess.split(";")[0]);
+        Double amount = amountForUser(publicKey);
+        Double price = Double.parseDouble(mess.split(";")[0]);
 
-        if(amount-price<0)
-        {
-            return false;}
+        if (amount - price < 0) {
+            return false;
+        }
 
         return RSA.verify(mess, signature, publicKey);
     }
@@ -163,7 +170,7 @@ public class User {
                 sum += b.coinbase.coinbase.get(publicKey);
 
             for (Transaction t : b.token.transactions.values()) {
-                if(t.verified) {
+                if (t.verified) {
                     //adds amount of transaction if the user is the receiver
                     if (t.receiver.publicKey.equals(publicKey))
                         sum += t.amount;
