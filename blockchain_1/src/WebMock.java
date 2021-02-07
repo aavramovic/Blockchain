@@ -25,10 +25,18 @@ public class WebMock {
         DataHolder.addUser(Bob);
         DataHolder.addUser(Antonio);
         DataHolder.addUser(Marta);
+        DataHolder.addUser(Jana);
+        DataHolder.addUser(Anne);
+        DataHolder.addUser(Mark);
+
+
         Alice.setUsers(DataHolder.users);
         Bob.setUsers(DataHolder.users);
         Antonio.setUsers(DataHolder.users);
         Marta.setUsers(DataHolder.users);
+        Jana.setUsers(DataHolder.users);
+        Anne.setUsers(DataHolder.users);
+        Mark.setUsers(DataHolder.users);
 
 
         Alice.newCoinbase(Double.parseDouble("300.0"), Alice.publicKey);

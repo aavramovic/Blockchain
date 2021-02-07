@@ -31,7 +31,7 @@ public class Block {
             this.Nonce++;
             this.hash = this.calculateHash();
         }
-        System.out.println(this.hash);
+
 
     }
 

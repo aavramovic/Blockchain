@@ -157,4 +157,10 @@ public class User {
         return sum;
     }
 
+    @Override
+    public String toString() {
+        return "User{" +
+                "publicKey=" + publicKey +
+                '}';
+    }
 }

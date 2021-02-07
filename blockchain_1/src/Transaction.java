@@ -18,7 +18,7 @@ public class Transaction  {
         this.amount = amount;
         this.sender=DataHolder.getUsers().stream().filter(u->u.publicKey.equals(senderPubK)).findFirst().orElse(null);
         this.receiver=DataHolder.getUsers().stream().filter(u->u.publicKey.equals(receiverPubK)).findFirst().orElse(null);
-        if (this.receiver== null|| this.sender==null)
+        if (this.receiver== null || this.sender==null)
             throw new InvalidAttributesException("Invalid user or sender");
         //message construction mess=amount;senderPubK;receiverPubK
         StringBuilder sb =new StringBuilder();
