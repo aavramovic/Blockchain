@@ -96,6 +96,8 @@ public class WebMock {
         //Marta.updateMinerBlockChain();
         //update();
         Mark.verifyBlockChain();
+        Mark.updateMinerBlockChain();
+
         update();
 
         for (Block b : Marta.blockchain.chain) {

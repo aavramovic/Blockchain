@@ -107,6 +107,7 @@ public class User {
         block.proofOfWork(this.blockchain.difficulty);
         block.coinbase.coinbase.put(this.publicKey, Double.parseDouble("15.00"));
         int index = this.blockchain.chain.indexOf(block);
+
         if (index != 0) {
             block.setPrevious(this.blockchain.chain.get(index - 1).hash);
         }
@@ -167,6 +168,7 @@ public class User {
         if(!flag){
             this.blockchain.chain.remove(this.getLastBlock());
         }
+//        System.out.println(this.blockchain.chain.get(0).print());
     }
 
 
