@@ -6,39 +6,36 @@ public class BlockChain {
     public List<Block> chain;
     public int difficulty;
     private static final int LIMIT = 10;
-
-
     public BlockChain() {
         this.chain = new ArrayList<>();
         this.difficulty = 1;
         this.chain.add(new Block());
     }
-
-
     public void addTransaction(Transaction transaction) throws NoSuchAlgorithmException {
         Block lastBlock = this.chain.get(chain.size() - 1);
         if (lastBlock.token.transactions.size() >= LIMIT) {
             this.addNewBlock(new Block());
             addTransaction(transaction);
-
+            //this.difficulty=this.difficulty++;
         } else {
             lastBlock.token.transactions.put(transaction.signature, transaction);
-
         }
     }
-    //update difficulty with each block
-
     public void addNewBlock(Block newBlock) throws NoSuchAlgorithmException {
-        //boolean za da proverime dali se dodal nov block
-        //in proofOfWork computes the hash
-        // newBlock.hash = newBlock.calculateHash();
         Block lastBlock = this.chain.get(chain.size() - 1);
         newBlock.setPrevious(lastBlock.hash);
         this.chain.add(newBlock);
+    }
+    public int verifiedSize() {
+        int size = 0;
+        for (Block b : this.chain) {
+            if (b.hash != null) {
+                size++;
+            }
+        }
+        return size;
 
     }
-
-    //check chain validity
     public boolean chainValidity() throws NoSuchAlgorithmException {
 
         for (int i = 1; i < this.chain.size(); i++) {
@@ -50,9 +47,7 @@ public class BlockChain {
 
         }
         return true;
-
     }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -61,27 +56,15 @@ public class BlockChain {
         return difficulty == that.difficulty &&
                 Objects.equals(chain, that.chain);
     }
-
     @Override
     public int hashCode() {
         return Objects.hash(chain, difficulty);
     }
-
     @Override
     public String toString() {
         return "BlockChain{" +
                 "chain=" + chain.toString() +
                 ", difficulty=" + difficulty +
                 '}';
-    }
-
-    public int verifiedSize() {
-        int size = 0;
-        for (Block b : this.chain) {
-            if (b.hash != null) {
-                size++;
-            }
-        }
-        return size;
     }
 }

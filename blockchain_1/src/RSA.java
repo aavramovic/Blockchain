@@ -1,9 +1,4 @@
 import javax.crypto.Cipher;
-import java.math.BigInteger;
-import java.math.BigInteger;
-import java.nio.ByteBuffer;
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
 import java.security.*;
 import java.util.Base64;
 
@@ -18,7 +13,7 @@ public  class RSA{
 
          return pair;
      }
-    //encryption
+    //enkripcija
     public static String encrypt(String plainText, PublicKey publicKey) throws Exception {
         Cipher encryptCipher = Cipher.getInstance("RSA");
         encryptCipher.init(Cipher.ENCRYPT_MODE, publicKey);
@@ -27,7 +22,7 @@ public  class RSA{
 
         return Base64.getEncoder().encodeToString(cipherText);
     }
-    //decryption
+    //dekripcija
     public static String decrypt(String cipherText, PrivateKey privateKey) throws Exception {
         byte[] bytes = Base64.getDecoder().decode(cipherText);
 
@@ -46,7 +41,7 @@ public  class RSA{
 
         return Base64.getEncoder().encodeToString(signature);
     }
-    //verify
+    //verifikacija
     public static boolean verify(String plainText, String signature, PublicKey publicKey) throws Exception {
         Signature publicSignature = Signature.getInstance("SHA256withRSA");
         publicSignature.initVerify(publicKey);

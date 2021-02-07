@@ -1,4 +1,6 @@
 import javax.xml.crypto.Data;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.lang.invoke.WrongMethodTypeException;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
@@ -37,12 +39,15 @@ public class WebMock {
         Mark.setUsers(DataHolder.users);
 
 
+
+
+
+
+
+        //new coinbase
         Alice.newCoinbase(Double.parseDouble("300"), Alice.publicKey);
         Mark.newCoinbase(Double.parseDouble("1000"), Mark.publicKey);
-
-
-        //making transactions
-         //works
+        //all true
         Mark.newTransaction(Mark.publicKey, Anne.publicKey, Double.parseDouble("1.0")); //T
         Mark.newTransaction(Mark.publicKey, Anne.publicKey, Double.parseDouble("1.0")); //T
         Mark.newTransaction(Mark.publicKey, Anne.publicKey, Double.parseDouble("1.0")); //T
@@ -53,11 +58,11 @@ public class WebMock {
         Mark.newTransaction(Mark.publicKey, Anne.publicKey, Double.parseDouble("1.0")); //T
         Mark.newTransaction(Mark.publicKey, Anne.publicKey, Double.parseDouble("1.0")); //T
         Mark.newTransaction(Mark.publicKey, Anne.publicKey, Double.parseDouble("1.0")); //T
-
+        //verifikacija od miner
         Antonio.verifyBlock(Antonio.getLastBlock());
         Antonio.updateMinerBlockChain();
         update();
-
+        //bez coinbase
         Alice.newTransaction(Alice.publicKey, Bob.publicKey, Double.parseDouble("100.0")); //T
         Mark.newTransaction(Mark.publicKey, Anne.publicKey, Double.parseDouble("500.0")); //T
         Jana.newTransaction(Jana.publicKey, Antonio.publicKey, Double.parseDouble("100.0")); //F
@@ -67,32 +72,36 @@ public class WebMock {
         Mark.newTransaction(Mark.publicKey, Anne.publicKey, Double.parseDouble("250.0")); //T
         Anne.newTransaction(Anne.publicKey, Alice.publicKey, Double.parseDouble("300.0")); //T
         Mark.newTransaction(Mark.publicKey, Bob.publicKey, Double.parseDouble("780.0")); //F
-
-
-        Antonio.verifyBlock(Antonio.getLastBlock());
-        Antonio.updateMinerBlockChain();
+        //verifikacija od miner
+        Jana.verifyBlock(Antonio.getLastBlock());
+        Jana.updateMinerBlockChain();
         update();
-        for (Block b : Antonio.blockchain.chain) {
+        System.out.println("Jana"+Jana.amountForUser(Jana.publicKey));
+        System.out.println("Mark"+Mark.amountForUser(Mark.publicKey));
+        System.out.println("Alice"+Alice.amountForUser(Alice.publicKey));
+        System.out.println("Antonio"+Antonio.amountForUser(Antonio.publicKey));
+        System.out.println("Marta"+Marta.amountForUser(Marta.publicKey));
+        System.out.println("Bob"+Bob.amountForUser(Bob.publicKey));
+
+        //all false
+        Antonio.newCoinbase(Double.parseDouble("10.0"), Antonio.publicKey);
+        Bob.newTransaction(Bob.publicKey, Mark.publicKey, Double.parseDouble("110.0"));//F
+        Marta.newTransaction(Marta.publicKey, Alice.publicKey, Double.parseDouble("103.0"));//F
+        Alice.newTransaction(Alice.publicKey, Bob.publicKey, Double.parseDouble("1002.0"));//F
+        Marta.newTransaction(Marta.publicKey, Anne.publicKey, Double.parseDouble("104.0"));//F
+        Mark.newTransaction(Mark.publicKey, Bob.publicKey, Double.parseDouble("1011.0"));//F
+        Antonio.newTransaction(Antonio.publicKey,Jana.publicKey,Double.parseDouble("100.0"));//F
+
+        Marta.verifyBlock(Marta.getLastBlock());
+        Marta.updateMinerBlockChain();
+        update();
+
+        for (Block b : Marta.blockchain.chain) {
             System.out.println("-------------");
             System.out.println(b.print());
         }
-//        Antonio.verifyBlock(Antonio.getLastBlock());
-//        Antonio.updateMinerBlockChain();
-//        update();
-//        for(Block b:Antonio.blockchain.chain){
-//            System.out.println("-------------");
-//            System.out.println(b.print());
-//        }
 
 
-        //new transactions
-//        Jana.newCoinbase(Double.parseDouble("300.0"), Jana.publicKey);
-//        Bob.newTransaction(Alice.publicKey, Mark.publicKey, Double.parseDouble("11.0"));
-//        Mark.newTransaction(Alice.publicKey, Bob.publicKey, Double.parseDouble("12.0"));
-//        Marta.newTransaction(Alice.publicKey, Alice.publicKey, Double.parseDouble("13.0"));
-//        Bob.newTransaction(Alice.publicKey, Jana.publicKey, Double.parseDouble("300.0"));
-//        Marta.newTransaction(Alice.publicKey, Anne.publicKey, Double.parseDouble("14.0"));
-//        Marta.verifyBlock(Antonio.getLastBlock());
 
 
     }
