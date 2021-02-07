@@ -13,8 +13,10 @@ public class Transaction  {
 
     public Transaction(double amount, PublicKey senderPubK,PublicKey receiverPubK) throws InvalidAttributesException {
         this.amount = amount;
-        this.sender=DataHolder.getUsers().stream().filter(u->u.publicKey.equals(senderPubK)).findFirst().orElse(null);
-        this.receiver=DataHolder.getUsers().stream().filter(u->u.publicKey.equals(receiverPubK)).findFirst().orElse(null);
+        this.sender=DataHolder.getUsers().stream().filter(u->u.publicKey.equals(senderPubK))
+                .findFirst().orElse(null);
+        this.receiver=DataHolder.getUsers().stream().filter(u->u.publicKey.equals(receiverPubK))
+                .findFirst().orElse(null);
         if (this.receiver== null || this.sender==null)
             throw new InvalidAttributesException("Invalid user or sender");
         // mess=amount;senderPubK;receiverPubK
@@ -26,8 +28,7 @@ public class Transaction  {
                 .append(timestamp).toString();
     }
     public String print(){
-        return "Transaction{" +
-                "sender=" + sender.name +
+        return "Transaction{" + "sender=" + sender.name +
                 ", receiver=" + receiver.name +
                 ", amount=" + amount +
                 ", verified=" + verified +

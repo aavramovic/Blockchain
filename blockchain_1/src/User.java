@@ -23,11 +23,9 @@ public class User {
         updateBlockChainLocal();
         this.name = name;
     }
-
     public void setUsers(HashSet<User> users) {
         this.users = users;
     }
-
     public HashSet<User> getUsers() {
         return users;
     }
@@ -69,7 +67,8 @@ public class User {
                 finalBlockChain.put(u.blockchain, finalBlockChain.get(u.blockchain) + 1);
             finalBlockChain.put(u.blockchain, 1);
         }
-        Optional<Map.Entry<BlockChain, Integer>> maxEntry = finalBlockChain.entrySet().stream().max(Map.Entry.comparingByValue());
+        Optional<Map.Entry<BlockChain, Integer>> maxEntry = finalBlockChain.entrySet().stream()
+                .max(Map.Entry.comparingByValue());
         if (maxEntry.isPresent())
             return maxEntry.get().getKey();
         else {
@@ -77,7 +76,6 @@ public class User {
             return this.blockchain;
         }
     }
-
     public Block getLastBlock() {
         if (blockchain.chain.size() == 0) {
             blockchain.chain.add(new Block());
@@ -85,7 +83,6 @@ public class User {
         }
         return blockchain.chain.get(blockchain.chain.size() - 1);
     }
-
     public boolean verifyBlock(Block block) throws Exception {
         Map<String, Transaction> tmp = new LinkedHashMap<>(block.token.transactions);
         tmp.forEach((key, value) -> {
@@ -98,24 +95,18 @@ public class User {
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
-
         });
-        System.out.println(block.token.transactions.entrySet().size());
         if (block.token.transactions.entrySet().size() == 0) {
             return false;
         }
         block.proofOfWork(this.blockchain.difficulty);
         block.coinbase.coinbase.put(this.publicKey, Double.parseDouble("15.00"));
         int index = this.blockchain.chain.indexOf(block);
-
         if (index != 0) {
             block.setPrevious(this.blockchain.chain.get(index - 1).hash);
         }
-
         return true;
-
     }
-
     public boolean verifyTransaction(String signature, String mess, PublicKey publicKey) throws Exception {
         //proveri dali ima pari
         Double amount = amountForUser(publicKey);
@@ -125,13 +116,11 @@ public class User {
         }
         return RSA.verify(mess, signature, publicKey);
     }
-
     public String signTransaction(Transaction transaction) throws Exception {
         //RSA signature
         transaction.signature = RSA.sign(transaction.mess, this.privateKey);
         return transaction.signature;
     }
-
     //sum za user so public key kako argument (+coinbase+receiver-sender)
     public Double amountForUser(PublicKey publicKey) {
         double sum = 0;
@@ -150,7 +139,6 @@ public class User {
         }
         return sum;
     }
-    // 0 1 2
     public void verifyBlockChain() throws Exception {
         for (int i = 0; i < this.blockchain.chain.size()-1; i++) {
             Block b = this.blockchain.chain.get(i);
@@ -168,10 +156,7 @@ public class User {
         if(!flag){
             this.blockchain.chain.remove(this.getLastBlock());
         }
-//        System.out.println(this.blockchain.chain.get(0).print());
     }
-
-
     @Override
     public String toString() {
         return "User{" +

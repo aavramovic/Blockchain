@@ -2,7 +2,6 @@ import java.security.NoSuchAlgorithmException;
 import java.util.*;
 
 public class BlockChain {
-
     public List<Block> chain;
     public int difficulty;
     private static final int LIMIT = 10;
@@ -13,7 +12,7 @@ public class BlockChain {
     }
     public void addTransaction(Transaction transaction) throws NoSuchAlgorithmException {
         Block lastBlock = this.chain.get(chain.size() - 1);
-        if (lastBlock.token.transactions.size() >= LIMIT) {
+        if (lastBlock.token.transactions.size() >= LIMIT||lastBlock.hash!=null) {
             this.addNewBlock(new Block());
             addTransaction(transaction);
             //this.difficulty=this.difficulty++;
@@ -34,17 +33,15 @@ public class BlockChain {
             }
         }
         return size;
-
     }
     public boolean chainValidity() throws NoSuchAlgorithmException {
-
         for (int i = 1; i < this.chain.size(); i++) {
             Block curr = this.chain.get(i);
             Block prev = this.chain.get(i - 1);
-
-            if (!curr.previous.equals(prev.hash) || !curr.hash.equals(curr.calculateHash()))
+            if(curr.hash==null)
+                continue;
+            if (!curr.previous.equals(prev.hash) || !curr.hash.equals(curr.hash))
                 return false;
-
         }
         return true;
     }

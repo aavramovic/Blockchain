@@ -1,7 +1,6 @@
 import java.security.PublicKey;
 import java.util.HashMap;
 
-
 public class Coinbase {
 
     public HashMap<PublicKey,Double> coinbase;
