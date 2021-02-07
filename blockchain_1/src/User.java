@@ -82,7 +82,7 @@ public class User {
         return blockchain.chain.get(blockchain.chain.size() - 1);
     }
 
-    public void verifyBlock(Block block) throws Exception {
+    public boolean verifyBlock(Block block) throws Exception {
         Map<String, Transaction> tmp = new LinkedHashMap<>(block.token.transactions);
         tmp.forEach((key, value) -> {
             try {
@@ -96,12 +96,20 @@ public class User {
             }
 
         });
+        System.out.println(block.token.transactions.entrySet().size());
         if (block.token.transactions.entrySet().size()==0)
         {
-            return;
+            return false;
         }
         block.proofOfWork(this.blockchain.difficulty);
         block.coinbase.coinbase.put(this.publicKey,Double.parseDouble("15.00"));
+        int index=this.blockchain.chain.indexOf(block);
+        if(index!=0)
+        {
+            block.setPrevious(this.blockchain.chain.get(index-1).hash);
+        }
+
+        return true;
 
     }
     public boolean verifyTransaction(String signature, String mess, PublicKey publicKey) throws Exception {
@@ -136,6 +144,26 @@ public class User {
         }
         return sum;
     }
+    public void verifyBlockChain() throws Exception {
+
+        ArrayList<Block> tmp=new ArrayList<>(this.blockchain.chain);
+        for(Block b:tmp)
+        {
+           if(b.hash==null)
+           {
+               boolean flag=this.verifyBlock(b);
+               if(this.blockchain.chain.indexOf(b)!=this.blockchain.chain.size()-1&&!flag)
+               {
+                   int index=this.blockchain.chain.indexOf(b);
+                   this.blockchain.chain.remove(b);
+                   this.blockchain.chain.get(index).previous=b.previous;
+               }
+
+           }
+        }
+    }
+
+
     @Override
     public String toString() {
         return "User{" +

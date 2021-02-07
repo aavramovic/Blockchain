@@ -59,9 +59,9 @@ public class WebMock {
         Mark.newTransaction(Mark.publicKey, Anne.publicKey, Double.parseDouble("1.0")); //T
         Mark.newTransaction(Mark.publicKey, Anne.publicKey, Double.parseDouble("1.0")); //T
         //verifikacija od miner
-        Antonio.verifyBlock(Antonio.getLastBlock());
-        Antonio.updateMinerBlockChain();
-        update();
+       // Antonio.verifyBlock(Antonio.getLastBlock());
+       // Antonio.updateMinerBlockChain();
+       // update();
         //bez coinbase
         Alice.newTransaction(Alice.publicKey, Bob.publicKey, Double.parseDouble("100.0")); //T
         Mark.newTransaction(Mark.publicKey, Anne.publicKey, Double.parseDouble("500.0")); //T
@@ -73,9 +73,9 @@ public class WebMock {
         Anne.newTransaction(Anne.publicKey, Alice.publicKey, Double.parseDouble("300.0")); //T
         Mark.newTransaction(Mark.publicKey, Bob.publicKey, Double.parseDouble("780.0")); //F
         //verifikacija od miner
-        Jana.verifyBlock(Antonio.getLastBlock());
-        Jana.updateMinerBlockChain();
-        update();
+       // Jana.verifyBlock(Antonio.getLastBlock());
+        //Jana.updateMinerBlockChain();
+        //update();
         System.out.println("Jana"+Jana.amountForUser(Jana.publicKey));
         System.out.println("Mark"+Mark.amountForUser(Mark.publicKey));
         System.out.println("Alice"+Alice.amountForUser(Alice.publicKey));
@@ -92,8 +92,10 @@ public class WebMock {
         Mark.newTransaction(Mark.publicKey, Bob.publicKey, Double.parseDouble("1011.0"));//F
         Antonio.newTransaction(Antonio.publicKey,Jana.publicKey,Double.parseDouble("100.0"));//F
 
-        Marta.verifyBlock(Marta.getLastBlock());
-        Marta.updateMinerBlockChain();
+        //Marta.verifyBlock(Marta.getLastBlock());
+        //Marta.updateMinerBlockChain();
+        //update();
+        Mark.verifyBlockChain();
         update();
 
         for (Block b : Marta.blockchain.chain) {

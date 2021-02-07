@@ -39,7 +39,7 @@ public class Block {
         return SHA256.toString(SHA256.getSHA(ID + Nonce + previous + token.toString() + timestamp.toString()));
     }
     public boolean equals(Block b) {
-        return b.ID != this.ID || !this.hash.equals(b.hash);
+        return b.ID != this.ID;
     }
 
 }
