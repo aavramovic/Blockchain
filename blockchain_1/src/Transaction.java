@@ -31,8 +31,8 @@ public class Transaction  {
     public String print(){
         return "Transaction{" +
 //                "signature='" + signature + '\'' +
-                "sender=" + sender +
-                ", receiver=" + receiver +
+                "sender=" + sender.name +
+                ", receiver=" + receiver.name +
 
                 ", amount=" + amount +
 //                ", mess='" + mess + '\'' +

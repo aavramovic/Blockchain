@@ -12,7 +12,5 @@ public class Coinbase {
     public void newCoinbase(PublicKey publicKey,Double amount)
     {
         this.coinbase.put(publicKey,amount);
-
-
     }
 }

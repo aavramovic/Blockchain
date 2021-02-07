@@ -11,15 +11,17 @@ public class User {
     private final PrivateKey privateKey;
     public BlockChain blockchain;
     public HashSet<User> users;
+    public String name;
 
 
-    public User() throws Exception {
+    public User(String name) throws Exception {
         //Key pair for the user
         KeyPair kp = RSA.generateKeyPair();
         this.publicKey = kp.getPublic();
         this.privateKey = kp.getPrivate();
         this.users = new HashSet<>();
         updateBlockChainLocal();
+        this.name = name;
     }
 
     public void setUsers(HashSet<User> users) {
@@ -45,7 +47,7 @@ public class User {
     }
 
     public void newCoinbase(double amount, PublicKey publicKey) {
-        getLastBlock().coinbase.newCoinbase(publicKey, amount);
+        DataHolder.getUsers().forEach(x->x.getLastBlock().coinbase.newCoinbase(publicKey, amount));
     }
 
     public void updateBlockChainLocal() {
@@ -152,7 +154,6 @@ public class User {
                         sum -= t.amount;
                 }
             }
-
         }
         return sum;
     }
